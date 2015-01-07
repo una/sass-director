@@ -37,7 +37,7 @@ function getInput() {
 
 function doTheThing() {
   getInput();
-  inputText = '@import "vendors/bootstrap";\n@import "vendors/jquery-ui";\n\n@import "utils/variables";\n@import "utils/functions";\n@import "utils/mixins";\n@import "utils/placeholders";';
+  //inputText = '@import "vendors/bootstrap";\n@import "vendors/jquery-ui";\n\n@import "utils/variables";\n@import "utils/functions";\n@import "utils/mixins";\n@import "utils/placeholders";';
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
     for(var i = 0; i < lines.length; i++) {
@@ -46,33 +46,16 @@ function doTheThing() {
 
       if (lines[i] != '') { //skip blank lines
         if (currentDir === lastDir) { //if the current lines dir is the same as the last one
-          console.log(lines[i], 'same lastDir', lastDir, lastDir.length);
           finalOutput += 'touch ' + underscore + currentFile + extension + ';';
         }
         else { //if current dir != last one
           if (i > 0) { finalOutput += 'cd ../;' } //dont cd for the first line
            finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';' + 'touch ' + underscore + currentFile + extension + ';';
-           console.log(lines[i], 'not same', lastDir)
         }
       lastDir = currentDir;
       }
     }
-    console.log(finalOutput)
+    console.log(finalOutput);
+    document.getElementById('output-text').value = finalOutput;
 }
-
-// Looking for this:
-// mkdir vendors; cd vendors; touch bootstrap.scss; touch jquery-ui.scss; cd ../;
-// mkdir utils; cd utils; touch variables.scss; touch functions.scss; touch mixins.scss
-//
-/* Out of:
- @import "vendors/bootstrap";
- @import "vendors/jquery-ui";
-
- @import "utils/variables";
- @import "utils/functions";
- @import "utils/mixins";
- @import "utils/placeholders";
-*/
-
-
 
