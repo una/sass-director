@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sass Director</title>
+</head>
+<body>
+
+<h1>Sample Manifest File Showcase</h1>
+
+<p>A few well-thought-out Sass structures by some intelligent people.</p>
+
+<h2>Hugo Giraudel's Guidelines</h2>
+<a href="http://sass-guidelin.es/">Link</a>
+<code>
+  <pre>
+@import "vendors/bootstrap";
+@import "vendors/jquery-ui";
+
+@import "utils/variables";
+@import "utils/functions";
+@import "utils/mixins";
+@import "utils/placeholders";
+
+@import "base/reset";
+@import "base/typography";
+
+@import "layout/navigation";
+@import "layout/grid";
+@import "layout/header";
+@import "layout/footer";
+@import "layout/sidebar";
+@import "layout/forms";
+
+@import "components/buttons";
+@import "components/carousel";
+@import "components/cover";
+@import "components/dropdown";
+
+@import "pages/home";
+@import "pages/contact";
+
+@import "themes/theme";
+@import "themes/admin";
+  </pre>
+</code>
+
+<h2>Jina Bolton's Architecutre</h2>
+<a href="https://github.com/jina/refactoring/blob/master/examples/architecture-examples/jina.md">Link</a>
+<code>
+  <pre>
+@import "dependencies/color";
+@import "dependencies/typography";
+@import "dependencies/layout";
+@import "dependencies/motion";
+
+@import "base/site";
+@import "base/text-inline";
+@import "base/text-block";
+@import "base/lists";
+@import "base/tables";
+@import "base/forms";
+@import "base/media";
+@import "base/code";
+
+@import "components/buttons";
+@import "components/tooltips";
+
+@import "helpers/themes";
+@import "helpers/layout-float";
+@import "helpers/layout-table";
+@import "helpers/visibility";
+
+@import "tools/show-grids"
+@import "tools/diagnostic"
+
+@import "responsive/high-definition"
+@import "responsive/print"
+  </pre>
+</code>
+
+</body>
+</html>

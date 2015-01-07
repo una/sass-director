@@ -6,7 +6,10 @@
 </head>
 <body>
 
-Outputs one terminal command to set up an entire Sass directory structure for you based on your sass manifest file!
+<h1>Sass Director</h1>
+<h2>Architect a Sass project in one file without all of the manual labor.</h2>
+
+<p>Just sort out your Sass project structure in a Sass (or use one of these <a href="examples/index.html">examples</a> from the showcase) and paste the code of this file into the text field below:</p>
 
 <form action="javascript:doTheThing()">
   <label for="text-input">Input your Sass Manifest file!</label>
@@ -19,10 +22,18 @@ Outputs one terminal command to set up an entire Sass directory structure for yo
   <input type="checkbox" name="underscore" value=".scss" checked /> prefix files with underscore
 
   <button type="submit">Submit</button>
-
-  <label for="output">Copy and paste this into your terminal to quickly generate all of your files:</label>
-  <textarea id="output-text" type="textfield" name="output-text"></textarea>
 </form>
+
+<p>Now, inside of the same directory with your Sass mamifest file, paste the following code into your terminal to quickly build all of your folders and files:</p>
+  <textarea id="output-text" type="textfield" name="output-text"></textarea>
+
+<small>
+NOTE: This is beta version 0.01. Caveats in this version include:
+<ol>
+  <li>You must use double quotes</li>
+  <li>Only works for flat architecture -- no subdirectories</li>
+</ol>
+</small>
 
 <script src="scripts.js" type="text/javascript"></script>
 </body>
