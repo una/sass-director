@@ -1,4 +1,4 @@
-sass-director
+Sass Director
 =============
 
 An app that generates a shell script to build a directory structure based on your Sass manifest file.
@@ -35,16 +35,22 @@ Input:
 @import "themes/admin";
 ```
 
-Output:
+Default Output:
 
 ```
 mkdir utils;cd utils;touch _variables.scss;touch _functions.scss;touch _mixins.scss;touch _placeholders.scss;cd ../;mkdir base;cd base;touch _reset.scss;touch _typography.scss;cd ../;mkdir layout;cd layout;touch _navigation.scss;touch _grid.scss;touch _header.scss;touch _footer.scss;touch _sidebar.scss;touch _forms.scss;cd ../;mkdir components;cd components;touch _buttons.scss;touch _carousel.scss;touch _cover.scss;touch _dropdown.scss;cd ../;mkdir pages;cd pages;touch _home.scss;touch _contact.scss;cd ../;mkdir themes;cd themes;touch _theme.scss;touch _admin.scss;
 ```
+
+Options
+---
+
+- .scss or .sass syntax (default is .scss)
+- prefix files with "_" or not (default is prefix with "_")
 
 TO-DO
 ---
 - [x] quotation style ' or "
 - [x] choose .sass or .scss
 - [ ] make interface pretty
-- [ ] Option to add '_'
+- [x] Option to add '_'
 - [x] ignore comments

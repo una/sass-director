@@ -31,9 +31,12 @@ function doTheThing() {
       outputPlatter = document.getElementById('output-text'),
       i;
 
-  // Get the input here
+  // Get the input & options here
   inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
+  if (!document.querySelector('input[name="underscore"]').checked) {
+    underscore = '';
+  }
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
   for(var i = 0; i < lines.length; i++) {
