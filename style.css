@@ -1,0 +1,46 @@
+/* ----------------------------
+simple reset
+---------------------------- */
+html, body, ul, ol, li, form, fieldset, legend {
+  margin: 0;
+  padding: 0; }
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0; }
+
+fieldset, img {
+  border: 0; }
+
+legend {
+  color: #000; }
+
+li {
+  list-style: none; }
+
+sup {
+  vertical-align: text-top; }
+
+sub {
+  vertical-align: text-bottom; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+caption, th, td {
+  text-align: left;
+  vertical-align: top;
+  font-weight: normal; }
+
+input, textarea, select {
+  font-size: 110%;
+  line-height: 1.1; }
+
+abbr, acronym {
+  border-bottom: .1em dotted;
+  cursor: help; }
+
+body {
+  background: #F7DD72; }
+
+/*# sourceMappingURL=style.css.map */
