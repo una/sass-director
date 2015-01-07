@@ -44,7 +44,7 @@ function doTheThing() {
       currentDir = lines[i].between('"', '/'); //get the directory this line refers to
       currentFile = lines[i].between('/', '"'); //get file created in this line
 
-      if (lines[i] != '') { //skip blank lines
+      if (lines[i].charAt(0) === '@') { //skip blank lines & comments
         if (currentDir === lastDir) { //if the current lines dir is the same as the last one
           finalOutput += 'touch ' + underscore + currentFile + extension + ';';
         }
@@ -55,7 +55,6 @@ function doTheThing() {
       lastDir = currentDir;
       }
     }
-    console.log(finalOutput);
     document.getElementById('output-text').value = finalOutput;
 }
 

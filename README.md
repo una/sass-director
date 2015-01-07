@@ -42,3 +42,4 @@ after basics are working
 - [ ] choose .sass or .scss
 - [ ] make interface pretty
 - [ ] Option to add '_'
+- [ ] ignore comments
