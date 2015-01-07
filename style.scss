@@ -46,14 +46,96 @@ abbr, acronym
   cursor: help;
 }
 
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
 // COLORS
 $dark-purple: #1E152A;
-$teal: #5AB1BB;
-$grey-blue: #4E6766;
-$green: #A5C882;
-$yellow: #F7DD72;
+$teal: #5ab1bb;
+$grey-blue: #4e6766;
+$green: #a5c882;
+$yellow: #f7dd72;
+$hopbush: #c69;
+$white: #eef0f0;
 
-body {
-  background: $yellow;
+// TYPE
+$font-headers: 'Montserrat', serif;
+$font-copy: 'Montserrat', sans-serif;
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
+body {
+  font-family: $font-copy;
+  font-weight: 400;
+  padding: 2em 10%;
+  max-width: 860px;
+  margin: 0 auto;
+  background: $white;
+}
+
+h1, h2, h3 {
+  font-family: $font-headers;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 4em;
+  margin-bottom: .25em;
+  color: $teal;
+}
+
+h2 {
+  color: $grey-blue;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+form {
+  margin: 2em 0;
+}
+
+
+button[type=submit] {
+  width: 50%;
+  background: $green;
+  padding: 1em;
+  font-family: $font-copy;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  &:active,
+  &:hover {
+    background: darken($green, 5%);
+  }
+}
+
+textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  color: $teal;
+  background: darken($white, 10%);
+  padding: 1em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-height: 5.625em;
+  max-height: 12.5em;
+  width: 100%;
+}
+
+.logo {
+  float: left;
+  max-width: 120px;
+}

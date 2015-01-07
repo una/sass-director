@@ -1,6 +1,7 @@
 /* ----------------------------
 simple reset
 ---------------------------- */
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 html, body, ul, ol, li, form, fieldset, legend {
   margin: 0;
   padding: 0; }
@@ -40,7 +41,69 @@ abbr, acronym {
   border-bottom: .1em dotted;
   cursor: help; }
 
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
 body {
-  background: #F7DD72; }
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  padding: 2em 10%;
+  max-width: 860px;
+  margin: 0 auto;
+  background: #eef0f0; }
+
+h1, h2, h3 {
+  font-family: "Montserrat", serif;
+  font-weight: 700; }
+
+h1 {
+  font-size: 4em;
+  margin-bottom: .25em;
+  color: #5ab1bb; }
+
+h2 {
+  color: #4e6766; }
+
+html {
+  -webkit-font-smoothing: antialiased; }
+
+form {
+  margin: 2em 0; }
+
+button[type=submit] {
+  width: 50%;
+  background: #a5c882;
+  padding: 1em;
+  font-family: "Montserrat", sans-serif;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  cursor: pointer; }
+  button[type=submit]:active, button[type=submit]:hover {
+    background: #98c070; }
+
+textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #5ab1bb;
+  background: #d3d8d8;
+  padding: 1em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-height: 5.625em;
+  max-height: 12.5em;
+  width: 100%; }
+
+.logo {
+  float: left;
+  max-width: 120px; }
 
 /*# sourceMappingURL=style.css.map */
