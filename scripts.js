@@ -49,7 +49,8 @@ function doTheThing() {
           console.log(lines[i], 'same lastDir', lastDir, lastDir.length);
           finalOutput += 'touch ' + underscore + currentFile + extension + ';';
         }
-        else {
+        else { //if current dir != last one
+          if (i > 0) { finalOutput += 'cd ../;' } //dont cd for the first line
            finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';' + 'touch ' + underscore + currentFile + extension + ';';
            console.log(lines[i], 'not same', lastDir)
         }
