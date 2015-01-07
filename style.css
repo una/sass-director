@@ -1,7 +1,7 @@
 /* ----------------------------
 simple reset
 ---------------------------- */
-@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(http://fonts.googleapis.com/css?family=Merriweather:400,300);
 html, body, ul, ol, li, form, fieldset, legend {
   margin: 0;
   padding: 0; }
@@ -49,10 +49,10 @@ abbr, acronym {
   box-sizing: border-box; }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Merriweather", serif;
   font-weight: 400;
   padding: 2em 10%;
-  max-width: 860px;
+  max-width: 1000px;
   margin: 0 auto;
   background: #eef0f0; }
 
@@ -61,32 +61,101 @@ h1, h2, h3 {
   font-weight: 700; }
 
 h1 {
-  font-size: 4em;
+  font-size: 3.5em;
   margin-bottom: .25em;
-  color: #5ab1bb; }
+  color: #5ab1bb;
+  transform: rotate(-4deg); }
 
 h2 {
-  color: #4e6766; }
+  color: #4e6766;
+  font-family: "Merriweather", serif;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  margin: -.8em 0 2em 0;
+  text-align: right; }
+
+p {
+  line-height: 1.5; }
 
 html {
   -webkit-font-smoothing: antialiased; }
 
-form {
-  margin: 2em 0; }
+label {
+  color: #5ab1bb;
+  font-size: 80%;
+  width: 100%;
+  display: block;
+  margin-top: 2em; }
+
+input[type="radio"] {
+  background-color: transparent;
+  border: 0.15em solid #5ab1bb;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0 #d3d8d8;
+  cursor: pointer;
+  font: inherit;
+  height: 1em;
+  outline: none;
+  width: 1em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  vertical-align: middle;
+  margin-right: .25em;
+  margin-left: .6em; }
+  input[type="radio"]:checked {
+    background-color: #5ab1bb;
+    box-shadow: inset 0 0 0 0.1875em #eef0f0;
+    -webkit-transition: background .15s, box-shadow .1s;
+    transition: background .15s, box-shadow .1s; }
+
+radiogroup {
+  display: block;
+  width: 30%;
+  float: left; }
+
+.check-area {
+  display: block;
+  margin: 2.5em 0 1em; }
+
+input[type="checkbox"] {
+  background-color: transparent;
+  border: 0.15em solid #5ab1bb;
+  box-shadow: inset 0 0 0 0 #d3d8d8;
+  cursor: pointer;
+  font: inherit;
+  height: 1em;
+  outline: none;
+  width: 1em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  vertical-align: middle;
+  margin-right: .25em;
+  margin-left: .6em; }
+  input[type="checkbox"]:checked {
+    background-color: #5ab1bb;
+    box-shadow: inset 0 0 0 0.1875em #eef0f0;
+    -webkit-transition: background .15s, box-shadow .1s;
+    transition: background .15s, box-shadow .1s; }
 
 button[type=submit] {
   width: 50%;
-  background: #a5c882;
+  background: #5ab1bb;
   padding: 1em;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Merriweather", serif;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
   border: none;
-  cursor: pointer; }
-  button[type=submit]:active, button[type=submit]:hover {
-    background: #98c070; }
+  cursor: pointer;
+  display: block;
+  width: 45%;
+  font-size: 1.2em;
+  padding: .25em;
+  margin: 0 auto 1em; }
+  button[type=submit]:hover, button[type=submit]:focus {
+    background: #49a7b2; }
 
 textarea {
   border: none;
@@ -104,6 +173,8 @@ textarea {
 
 .logo {
   float: left;
-  max-width: 120px; }
+  margin-right: 0em;
+  transform: rotate(3deg);
+  max-width: 110px; }
 
 /*# sourceMappingURL=style.css.map */

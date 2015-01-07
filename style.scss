@@ -46,7 +46,7 @@ abbr, acronym
   cursor: help;
 }
 
-@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(http://fonts.googleapis.com/css?family=Merriweather:400,300);
 
 // COLORS
 $dark-purple: #1E152A;
@@ -56,10 +56,11 @@ $green: #a5c882;
 $yellow: #f7dd72;
 $hopbush: #c69;
 $white: #eef0f0;
+$input-color: darken($white, 10%);
 
 // TYPE
 $font-headers: 'Montserrat', serif;
-$font-copy: 'Montserrat', sans-serif;
+$font-copy: 'Merriweather', serif;
 
 *, *:before, *:after {
   margin: 0;
@@ -73,7 +74,7 @@ body {
   font-family: $font-copy;
   font-weight: 400;
   padding: 2em 10%;
-  max-width: 860px;
+  max-width: 1000px;
   margin: 0 auto;
   background: $white;
 }
@@ -84,27 +85,99 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 4em;
+  font-size: 3.5em;
   margin-bottom: .25em;
   color: $teal;
+  transform: rotate(-4deg);
 }
 
 h2 {
   color: $grey-blue;
+  font-family: $font-copy;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  margin: -.8em 0 2em 0;
+  text-align: right;
+}
+
+p {
+  line-height: 1.5;
 }
 
 html {
   -webkit-font-smoothing: antialiased;
 }
 
-form {
-  margin: 2em 0;
+label {
+  color: $teal;
+  font-size: 80%;
+  width: 100%;
+  display: block;
+  margin-top: 2em;
 }
 
+input[type="radio"] {
+  background-color: transparent;
+  border: .15em solid $teal;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0 $input-color;
+  cursor: pointer;
+  font: inherit;
+  height: 1em;
+  outline: none;
+  width: 1em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  vertical-align: middle;
+  margin-right: .25em;
+  margin-left: .6em;
+
+  &:checked {
+    background-color: $teal;
+    box-shadow: inset 0 0 0 .1875em $white;
+    -webkit-transition: background .15s, box-shadow .1s;
+    transition: background .15s, box-shadow .1s;
+  }
+}
+
+radiogroup {
+  display: block;
+  width: 30%;
+  float: left;
+}
+
+.check-area {
+  display: block;
+  margin: 2.5em 0 1em;
+}
+
+input[type="checkbox"] {
+  background-color: transparent;
+  border: .15em solid $teal;
+  box-shadow: inset 0 0 0 0 $input-color;
+  cursor: pointer;
+  font: inherit;
+  height: 1em;
+  outline: none;
+  width: 1em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  vertical-align: middle;
+  margin-right: .25em;
+  margin-left: .6em;
+
+  &:checked {
+    background-color: $teal;
+    box-shadow: inset 0 0 0 .1875em $white;
+    -webkit-transition: background .15s, box-shadow .1s;
+    transition: background .15s, box-shadow .1s;
+  }
+}
 
 button[type=submit] {
   width: 50%;
-  background: $green;
+  background: $teal;
   padding: 1em;
   font-family: $font-copy;
   -webkit-appearance: none;
@@ -113,10 +186,15 @@ button[type=submit] {
   outline: none;
   border: none;
   cursor: pointer;
+  display: block;
+  width: 45%;
+  font-size: 1.2em;
+  padding: .25em;
+  margin: 0 auto 1em;
 
-  &:active,
-  &:hover {
-    background: darken($green, 5%);
+  &:hover,
+  &:focus {
+    background: darken($teal, 5%);
   }
 }
 
@@ -125,7 +203,7 @@ textarea {
   outline: none;
   width: 100%;
   color: $teal;
-  background: darken($white, 10%);
+  background: $input-color;
   padding: 1em;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -137,5 +215,7 @@ textarea {
 
 .logo {
   float: left;
-  max-width: 120px;
+  margin-right: 0em;
+  transform: rotate(3deg);
+  max-width: 110px;
 }
