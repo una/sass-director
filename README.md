@@ -35,3 +35,10 @@ Test file is from sass-guidlin.es
 @import "themes/theme";
 @import "themes/admin";
 ```
+
+after basics are working
+---
+- [ ] ' or "
+- [ ] choose .sass or .scss
+- [ ] make interface pretty
+- [ ] Option to add '_'

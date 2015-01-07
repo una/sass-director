@@ -1,8 +1,10 @@
 var inputText = '',
     extension = '.scss', //temp
     lastDir = '',
-    workingFile = '',
-    finalOutput = '';
+    currentDir = '',
+    currentFile = '',
+    finalOutput = '',
+    underscore = '_'; //blank if underscore is false
 
 // split a string to get text between before & after characters
 // Usage  var you = 'hello you guys'.between('hello ',' guys');
@@ -39,14 +41,16 @@ function doTheThing() {
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
     for(var i = 0; i < lines.length; i++) {
-      currentDir = lines[i].between('"', '/');
+      currentDir = lines[i].between('"', '/'); //get the directory this line refers to
+      currentFile = lines[i].between('/', '"'); //get file created in this line
+
       if (lines[i] != '') { //skip blank lines
         if (currentDir === lastDir) { //if the current lines dir is the same as the last one
           console.log(lines[i], 'same lastDir', lastDir, lastDir.length);
-          //finalOutput += 'touch ' + workingFile + ';';
+          finalOutput += 'touch ' + underscore + currentFile + extension + ';';
         }
         else {
-           finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';';
+           finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';' + 'touch ' + underscore + currentFile + extension + ';';
            console.log(lines[i], 'not same', lastDir)
         }
       lastDir = currentDir;
