@@ -44,6 +44,11 @@ mkdir utils;cd utils;touch _variables.scss;touch _functions.scss;touch _mixins.s
 Options
 ---
 
+| Tables        | Options       | Default  |
+| ------------- |:-------------:| --------:|
+| Sass syntax   | .scss, .sass  | .scss    |
+| File prefix   | _, no _       | use _    |
+
 - .scss or .sass syntax (default is .scss)
 - prefix files with "_" or not (default is prefix with "_")
 
