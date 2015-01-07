@@ -33,6 +33,7 @@ String.prototype.between = function(before, after) {
 
 function getInput() {
   inputText = document.getElementById('input-text').value;
+  extension = document.querySelector('input[name="extension"]:checked').value;
 }
 
 function doTheThing() {

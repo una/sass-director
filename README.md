@@ -39,7 +39,7 @@ Test file is from sass-guidlin.es
 after basics are working
 ---
 - [ ] ' or "
-- [ ] choose .sass or .scss
+- [x] choose .sass or .scss
 - [ ] make interface pretty
 - [ ] Option to add '_'
 - [x] ignore comments
