@@ -63,8 +63,7 @@ h1, h2, h3 {
 h1 {
   font-size: 3.5em;
   margin-bottom: .25em;
-  color: #5ab1bb;
-  transform: rotate(-4deg); }
+  color: #5ab1bb; }
 
 h2 {
   color: #4e6766;
@@ -72,8 +71,7 @@ h2 {
   text-transform: uppercase;
   font-size: 0.9em;
   letter-spacing: 1px;
-  margin: -.8em 0 2em 0;
-  text-align: right; }
+  margin: -.8em 0 2em 0; }
 
 p {
   line-height: 1.5; }
@@ -174,7 +172,6 @@ textarea {
 .logo {
   float: left;
   margin-right: 0em;
-  transform: rotate(3deg);
-  max-width: 110px; }
+  max-width: 145px; }
 
 /*# sourceMappingURL=style.css.map */

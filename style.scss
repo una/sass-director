@@ -88,7 +88,6 @@ h1 {
   font-size: 3.5em;
   margin-bottom: .25em;
   color: $teal;
-  transform: rotate(-4deg);
 }
 
 h2 {
@@ -98,7 +97,6 @@ h2 {
   font-size: 0.9em;
   letter-spacing: 1px;
   margin: -.8em 0 2em 0;
-  text-align: right;
 }
 
 p {
@@ -216,6 +214,5 @@ textarea {
 .logo {
   float: left;
   margin-right: 0em;
-  transform: rotate(3deg);
-  max-width: 110px;
+  max-width: 145px;
 }

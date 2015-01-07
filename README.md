@@ -59,3 +59,4 @@ TO-DO
 - [ ] make interface pretty
 - [x] Option to add '_'
 - [x] ignore comments
+- [ ] allow for subdirectories
