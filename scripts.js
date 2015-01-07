@@ -1,6 +1,4 @@
 // split a string to get text between before & after characters
-// Usage  var word = 'the unicorns rule the world'.between('the ',' rule');
-// --> word = 'unicorns';
 function between(input, before, after) {
   var i = input.indexOf(before);
   if (i >= 0) {
@@ -20,7 +18,6 @@ function between(input, before, after) {
   }
   return input;
 }
-
 
 function doTheThing() {
   var inputText = '',
@@ -55,4 +52,3 @@ function doTheThing() {
   }
   outputPlatter.value = finalOutput;
 }
-
