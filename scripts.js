@@ -21,14 +21,15 @@ function between(input, before, after) {
 
 function doTheThing() {
   var inputText = '',
-      extension = '.scss', //temp
+      extension = '.scss', //default
       lastDir = '',
       currentDir = '',
       currentFile = '',
       finalOutput = '',
-      underscore = '_',
+      quotationStyle = '"',
+      underscore = '_', //default
       outputPlatter = document.getElementById('output-text'),
-      i; //blank if underscore is false
+      i;
 
   // Get the input here
   inputText = document.getElementById('input-text').value;
@@ -36,10 +37,14 @@ function doTheThing() {
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
   for(var i = 0; i < lines.length; i++) {
-    currentDir = between(lines[i],'"', '/'); //get the directory this line refers to
-    currentFile = between(lines[i],'/', '"'); //get file created in this line
-
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
+
+      quotationStyle = lines[i].charAt(8); //the first character after '@import ' is the quotation style
+      console.log(quotationStyle);
+
+      currentDir = between(lines[i], quotationStyle, '/'); //get the directory this line refers to
+      currentFile = between(lines[i],'/', quotationStyle); //get file created in this line
+
       if (currentDir === lastDir) { //if the current lines dir is the same as the last one
         finalOutput += 'touch ' + underscore + currentFile + extension + ';';
       }
