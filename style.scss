@@ -46,7 +46,8 @@ abbr, acronym
   cursor: help;
 }
 
-@import url(http://fonts.googleapis.com/css?family=Merriweather:400,300);
+@import url(http://fonts.googleapis.com/css?family=Carrois+Gothic);
+@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
 
 // COLORS
 $dark-purple: #1E152A;
@@ -59,8 +60,8 @@ $white: #eef0f0;
 $input-color: darken($white, 10%);
 
 // TYPE
-$font-headers: 'Montserrat', serif;
-$font-copy: 'Merriweather', serif;
+$font-headers: 'Fjalla One', serif;
+$font-copy: 'Carrois Gothic', sans-serif;
 
 *, *:before, *:after {
   margin: 0;
@@ -107,9 +108,14 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
+header {
+  text-align: center;
+}
+
 label {
   color: $teal;
-  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   width: 100%;
   display: block;
   margin-top: 2em;
@@ -209,10 +215,10 @@ textarea {
   min-height: 5.625em;
   max-height: 12.5em;
   width: 100%;
+  font-family: monospace;
 }
 
 .logo {
-  float: left;
-  margin-right: 0em;
+  transform: rotate(5deg);
   max-width: 145px;
 }

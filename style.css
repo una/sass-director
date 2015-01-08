@@ -1,7 +1,8 @@
 /* ----------------------------
 simple reset
 ---------------------------- */
-@import url(http://fonts.googleapis.com/css?family=Merriweather:400,300);
+@import url(http://fonts.googleapis.com/css?family=Carrois+Gothic);
+@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
 html, body, ul, ol, li, form, fieldset, legend {
   margin: 0;
   padding: 0; }
@@ -49,7 +50,7 @@ abbr, acronym {
   box-sizing: border-box; }
 
 body {
-  font-family: "Merriweather", serif;
+  font-family: "Carrois Gothic", sans-serif;
   font-weight: 400;
   padding: 2em 10%;
   max-width: 1000px;
@@ -57,7 +58,7 @@ body {
   background: #eef0f0; }
 
 h1, h2, h3 {
-  font-family: "Montserrat", serif;
+  font-family: "Fjalla One", serif;
   font-weight: 700; }
 
 h1 {
@@ -67,7 +68,7 @@ h1 {
 
 h2 {
   color: #4e6766;
-  font-family: "Merriweather", serif;
+  font-family: "Carrois Gothic", sans-serif;
   text-transform: uppercase;
   font-size: 0.9em;
   letter-spacing: 1px;
@@ -79,9 +80,13 @@ p {
 html {
   -webkit-font-smoothing: antialiased; }
 
+header {
+  text-align: center; }
+
 label {
   color: #5ab1bb;
-  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   width: 100%;
   display: block;
   margin-top: 2em; }
@@ -140,7 +145,7 @@ button[type=submit] {
   width: 50%;
   background: #5ab1bb;
   padding: 1em;
-  font-family: "Merriweather", serif;
+  font-family: "Carrois Gothic", sans-serif;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -167,11 +172,11 @@ textarea {
   appearance: none;
   min-height: 5.625em;
   max-height: 12.5em;
-  width: 100%; }
+  width: 100%;
+  font-family: monospace; }
 
 .logo {
-  float: left;
-  margin-right: 0em;
+  transform: rotate(5deg);
   max-width: 145px; }
 
 /*# sourceMappingURL=style.css.map */
