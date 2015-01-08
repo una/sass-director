@@ -156,23 +156,21 @@ input[type="checkbox"] {
     transition: background .15s, box-shadow .1s; }
 
 button[type=submit] {
-  text-transform: uppercase;
-  font-weight: 800;
-  width: 50%;
-  background: #5ab1bb;
-  padding: 1em;
-  font-family: "Carrois Gothic", sans-serif;
-  -webkit-appearance: none;
   -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
-  outline: none;
+  background: #5ab1bb;
   border: none;
   cursor: pointer;
   display: block;
-  width: 100%;
+  font-family: "Carrois Gothic", sans-serif;
   font-size: 1em;
+  font-weight: 800;
+  margin: 0 auto 1em;
+  outline: none;
   padding: .5em;
-  margin: 0 auto 1em; }
+  text-transform: uppercase;
+  width: 100%; }
   button[type=submit]:hover, button[type=submit]:focus {
     background: #569aa1; }
 
@@ -211,10 +209,23 @@ textarea {
 
 footer {
   position: absolute;
-  height: 4em;
+  height: 2.5em;
   right: 0;
   bottom: 0;
   left: 0;
   text-align: center; }
+
+.clear {
+  clear: both; }
+
+.example-list li {
+  float: left;
+  outline: 1px solid lightgrey;
+  padding: 1em;
+  margin: 1em 1em 0 0; }
+.example-list pre {
+  background: white;
+  padding: 1em;
+  margin-top: 1em; }
 
 /*# sourceMappingURL=style.css.map */

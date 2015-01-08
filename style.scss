@@ -202,23 +202,21 @@ input[type="checkbox"] {
 }
 
 button[type=submit] {
-  text-transform: uppercase;
-  font-weight: 800;
-  width: 50%;
-  background: $teal;
-  padding: 1em;
-  font-family: $font-copy;
-  -webkit-appearance: none;
   -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
-  outline: none;
+  background: $teal;
   border: none;
   cursor: pointer;
   display: block;
-  width: 100%;
+  font-family: $font-copy;
   font-size: 1em;
-  padding: .5em;
+  font-weight: 800;
   margin: 0 auto 1em;
+  outline: none;
+  padding: .5em;
+  text-transform: uppercase;
+  width: 100%;
 
   &:hover,
   &:focus {
@@ -269,9 +267,28 @@ textarea {
 
 footer {
   position: absolute;
-  height: 4em;
+  height: 2.5em;
   right: 0;
   bottom: 0;
   left: 0;
   text-align: center;
+}
+
+.clear {
+  clear: both;
+}
+
+.example-list {
+  li {
+  float: left;
+  outline: 1px solid lightgrey;
+  padding: 1em;
+  margin: 1em 1em 0 0;
+  }
+
+  pre {
+    background: white;
+    padding: 1em;
+    margin-top: 1em;
+  }
 }
