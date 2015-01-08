@@ -115,10 +115,10 @@ header {
 label {
   color: $teal;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  font-weight: 800;
   width: 100%;
   display: block;
-  margin-top: 2em;
+  margin: 2em 0 .5em;
 }
 
 input[type="radio"] {
