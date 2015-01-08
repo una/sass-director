@@ -49,13 +49,19 @@ abbr, acronym {
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  height: 100%; }
+
 body {
   font-family: "Carrois Gothic", sans-serif;
   font-weight: 400;
-  padding: 2em 10%;
+  padding: 2em 10% 4em;
   max-width: 1000px;
   margin: 0 auto;
-  background: #eef0f0; }
+  background: #eef0f0;
+  min-height: 100%;
+  position: relative; }
 
 h1, h2, h3 {
   font-family: "Fjalla One", serif;
@@ -64,21 +70,30 @@ h1, h2, h3 {
 h1 {
   font-size: 3.5em;
   margin-bottom: .25em;
-  color: orange; }
+  color: #5ab1bb; }
 
 h2 {
   color: #4e6766;
   font-family: "Carrois Gothic", sans-serif;
   text-transform: uppercase;
   font-size: 0.9em;
-  letter-spacing: 1px;
+  letter-spacing: 2px; }
+
+.subtitle {
   margin: -.8em 0 2em 0; }
 
 p {
   line-height: 1.5; }
 
-html {
-  -webkit-font-smoothing: antialiased; }
+button, a {
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s; }
+
+a {
+  color: #c69; }
+  a:hover, a:focus {
+    color: #eae2e7; }
 
 header {
   text-align: center; }
@@ -89,13 +104,13 @@ label {
   font-weight: 800;
   width: 100%;
   display: block;
-  margin: 2em 0 .5em; }
+  margin: 1em 0 .5em; }
 
 input[type="radio"] {
   background-color: transparent;
   border: 0.15em solid #5ab1bb;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 0 #d3d8d8;
+  box-shadow: inset 0 0 0 0 #dee2e2;
   cursor: pointer;
   font: inherit;
   height: 1em;
@@ -113,18 +128,17 @@ input[type="radio"] {
     transition: background .15s, box-shadow .1s; }
 
 radiogroup {
-  display: block;
-  width: 30%;
-  float: left; }
+  margin-bottom: 1em;
+  display: inline-block; }
 
 .check-area {
-  display: block;
-  margin: 2.5em 0 1em; }
+  display: inline-block;
+  margin-bottom: 1em; }
 
 input[type="checkbox"] {
   background-color: transparent;
   border: 0.15em solid #5ab1bb;
-  box-shadow: inset 0 0 0 0 #d3d8d8;
+  box-shadow: inset 0 0 0 0 #dee2e2;
   cursor: pointer;
   font: inherit;
   height: 1em;
@@ -142,6 +156,8 @@ input[type="checkbox"] {
     transition: background .15s, box-shadow .1s; }
 
 button[type=submit] {
+  text-transform: uppercase;
+  font-weight: 800;
   width: 50%;
   background: #5ab1bb;
   padding: 1em;
@@ -153,30 +169,52 @@ button[type=submit] {
   border: none;
   cursor: pointer;
   display: block;
-  width: 45%;
-  font-size: 1.2em;
-  padding: .25em;
+  width: 100%;
+  font-size: 1em;
+  padding: .5em;
   margin: 0 auto 1em; }
   button[type=submit]:hover, button[type=submit]:focus {
-    background: #49a7b2; }
+    background: #569aa1; }
 
 textarea {
   border: none;
-  outline: none;
-  width: 100%;
-  color: #5ab1bb;
-  background: #d3d8d8;
+  outline: 2px solid #5ab1bb;
+  background: #dee2e2;
   padding: 1em;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   min-height: 5.625em;
   max-height: 12.5em;
-  width: 100%;
-  font-family: monospace; }
+  font-family: monospace;
+  width: 100%; }
 
 .logo {
   transform: rotate(5deg);
   max-width: 145px; }
+
+.half {
+  width: 50%;
+  float: left;
+  display: block;
+  padding: 2.5%; }
+
+@media (max-width: 750px) {
+  .half {
+    width: 100%; } }
+.notice {
+  margin-top: 1em;
+  display: block; }
+
+.container {
+  position: relative; }
+
+footer {
+  position: absolute;
+  height: 4em;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

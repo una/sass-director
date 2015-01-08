@@ -46,6 +46,8 @@ abbr, acronym
   cursor: help;
 }
 
+//IMPORTS
+
 @import url(http://fonts.googleapis.com/css?family=Carrois+Gothic);
 @import url(http://fonts.googleapis.com/css?family=Fjalla+One);
 
@@ -57,7 +59,7 @@ $green: #a5c882;
 $yellow: #f7dd72;
 $hopbush: #c69;
 $white: #eef0f0;
-$input-color: darken($white, 10%);
+$input-color: mix($grey-blue, $white, 10%);
 
 // TYPE
 $font-headers: 'Fjalla One', serif;
@@ -71,13 +73,20 @@ $font-copy: 'Carrois Gothic', sans-serif;
   box-sizing: border-box;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
 body {
   font-family: $font-copy;
   font-weight: 400;
-  padding: 2em 10%;
+  padding: 2em 10% 4em; //4em is footer height
   max-width: 1000px;
   margin: 0 auto;
   background: $white;
+  min-height: 100%;
+  position: relative;
 }
 
 h1, h2, h3 {
@@ -96,7 +105,10 @@ h2 {
   font-family: $font-copy;
   text-transform: uppercase;
   font-size: 0.9em;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+}
+
+.subtitle {
   margin: -.8em 0 2em 0;
 }
 
@@ -104,8 +116,19 @@ p {
   line-height: 1.5;
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
+button, a {
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+}
+
+a {
+  color: $hopbush;
+
+  &:hover,
+  &:focus {
+    color: mix($hopbush, $white, 10%)
+  }
 }
 
 header {
@@ -118,7 +141,7 @@ label {
   font-weight: 800;
   width: 100%;
   display: block;
-  margin: 2em 0 .5em;
+  margin: 1em 0 .5em;
 }
 
 input[type="radio"] {
@@ -146,14 +169,13 @@ input[type="radio"] {
 }
 
 radiogroup {
-  display: block;
-  width: 30%;
-  float: left;
+  margin-bottom: 1em;
+  display: inline-block;
 }
 
 .check-area {
-  display: block;
-  margin: 2.5em 0 1em;
+  display: inline-block;
+  margin-bottom: 1em;
 }
 
 input[type="checkbox"] {
@@ -180,6 +202,8 @@ input[type="checkbox"] {
 }
 
 button[type=submit] {
+  text-transform: uppercase;
+  font-weight: 800;
   width: 50%;
   background: $teal;
   padding: 1em;
@@ -191,22 +215,20 @@ button[type=submit] {
   border: none;
   cursor: pointer;
   display: block;
-  width: 45%;
-  font-size: 1.2em;
-  padding: .25em;
+  width: 100%;
+  font-size: 1em;
+  padding: .5em;
   margin: 0 auto 1em;
 
   &:hover,
   &:focus {
-    background: darken($teal, 5%);
+    background: mix($teal, $grey-blue, 70%);
   }
 }
 
 textarea {
   border: none;
-  outline: none;
-  width: 100%;
-  color: $teal;
+  outline: 2px solid $teal;
   background: $input-color;
   padding: 1em;
   -webkit-appearance: none;
@@ -214,11 +236,42 @@ textarea {
   appearance: none;
   min-height: 5.625em;
   max-height: 12.5em;
-  width: 100%;
   font-family: monospace;
+  width: 100%;
 }
 
 .logo {
   transform: rotate(5deg);
   max-width: 145px;
+}
+
+.half {
+  width: 50%;
+  float: left;
+  display: block;
+  padding: 2.5%;
+}
+
+@media (max-width: 750px) {
+  .half {
+    width: 100%;
+  }
+}
+
+.notice {
+  margin-top: 1em;
+  display: block;
+}
+
+.container {
+  position: relative;
+}
+
+footer {
+  position: absolute;
+  height: 4em;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
 }

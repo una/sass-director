@@ -5,16 +5,21 @@
   <title>Sass Director</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body>
-
-<h1>Sample Manifest File Showcase</h1>
+<div class="container">
+  <header>
+    <a href="http://una.github.io/sass-director"><img class="logo" src="../sass-director.svg" alt="Sass Director Logo"></a>
+    <h1>Sass Director</h1>
+    <h2 class="subtitle">A Showcase of Manifest Files</h2>
+  </header>
 
 <p>A few well-thought-out Sass structures by some intelligent people.</p>
 
-<h2>Hugo Giraudel's Guidelines</h2>
-<a href="http://sass-guidelin.es/">Link</a>
-<code>
-  <pre>
+<ul class="example-list">
+  <li>
+    <h2>Hugo Giraudel's Guidelines</h2>
+    <a href="http://sass-guidelin.es/">Link</a>
+    <code>
+      <pre>
 @import "vendors/bootstrap";
 @import "vendors/jquery-ui";
 
@@ -43,13 +48,15 @@
 
 @import "themes/theme";
 @import "themes/admin";
-  </pre>
-</code>
+      </pre>
+    </code>
+  </li>
 
-<h2>Jina Bolton's Architecutre</h2>
-<a href="https://github.com/jina/refactoring/blob/master/examples/architecture-examples/jina.md">Link</a>
-<code>
-  <pre>
+  <li>
+    <h2>Jina Bolton's Architecutre</h2>
+    <a href="https://github.com/jina/refactoring/blob/master/examples/architecture-examples/jina.md">Link</a>
+    <code>
+      <pre>
 @import "dependencies/color";
 @import "dependencies/typography";
 @import "dependencies/layout";
@@ -77,8 +84,14 @@
 
 @import "responsive/high-definition"
 @import "responsive/print"
-  </pre>
-</code>
+      </pre>
+    </code>
+  </li>
+</ul>
+</div>
 
+<footer>
+  Made with love by <a href="http://una.github.io">Una</a> | View the <a href="http://github.com/una/sass-director">Github repo</a>
+</footer>
 </body>
 </html>
