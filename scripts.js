@@ -26,6 +26,7 @@ function doTheThing() {
       currentDir = '',
       currentFile = '',
       finalOutput = '',
+      subDirCount = 0,
       quotationStyle = '"',
       underscore = '_', //default
       outputPlatter = document.getElementById('output-text'),
@@ -39,12 +40,18 @@ function doTheThing() {
   }
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
+
   for(var i = 0; i < lines.length; i++) {
+    subDirCount = ((lines[i]).match(/\//g) || []).length-1; //get # of subdirectories in the line
+
+    if (subDirCount > 0) {
+      outputPlatter.value = 'Sorry! This currently only works for flat directory structures!\n\ni.e. @import "dir1/file".\nI promise I\'m working on it!';
+      return;
+    }
+
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
 
       quotationStyle = lines[i].charAt(8); //the first character after '@import ' is the quotation style
-      console.log(quotationStyle);
-
       currentDir = between(lines[i], quotationStyle, '/'); //get the directory this line refers to
       currentFile = between(lines[i],'/', quotationStyle); //get file created in this line
 
