@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sass Director</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    <a href="http://una.github.io/sass-director"><img class="logo" src="sass-director.svg" alt="Sass Director Logo"></a>
+    <h1>Sass Director</h1>
+    <h2 class="subtitle">For directing Sass directories</h2>
+  </header>
+
+  <p>Just sort out your Sass project architecture in a Sass manifest file (i.e. main.scss) or use an example from the <a href="examples/index.html">showcase</a>. Then, in your terminal, within the same directory as (only your) manifest file, paste the output generated below. It will quickly build all of your directories and files. Easy peasy!</p>
+
+  <form action="javascript:doTheThing()" class="half">
+    <label for="text-input">1. Paste Sass Manifest file:</label>
+    <textarea id="input-text" type="textfield" name="input-text"></textarea>
+
+    <radiogroup>
+      <label for="extension">2. Select Options:</label>
+      <input type="radio" name="extension" value=".scss" checked />.scss
+      <input type="radio" name="extension" value=".sass" />.sass
+    </radiogroup>
+
+    <div class="check-area">
+        <input type="checkbox" name="underscore" value="_" checked /> Prefix files with "_"
+    </div>
+
+    <button type="submit">3. Submit</button>
+  </form>
+
+  <div class="half">
+    <label for="output-text">4. Use terminal command:</label>
+    <textarea id="output-text" type="textfield" name="output-text"></textarea>
+    <small class="notice">
+      NOTE: This is a work-in-progress and currently only works for flat architecture &mdash; no subdirectories
+    </small>
+  </div>
+
+  <div class="clear"></div>
+</div>
+
+<footer>
+  Made with love by <a href="http://una.github.io">Una</a> | View the <a href="http://github.com/una/sass-director">Github repo</a>
+</footer>
+
+<script async src="object.js" type="text/javascript"></script>
+</body>
+</html>
