@@ -25,8 +25,8 @@ function doTheThing() {
       lastDir = '',
       currentDir = '',
       currentFile = '',
+      currentPath = [],
       finalOutput = '',
-      subDirCount = 0,
       quotationStyle = '"',
       underscore = '_', //default
       outputPlatter = document.getElementById('output-text'),
@@ -42,26 +42,18 @@ function doTheThing() {
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
 
   for(var i = 0; i < lines.length; i++) {
-    subDirCount = ((lines[i]).match(/\//g) || []).length-1; //get # of subdirectories in the line
-
-    if (subDirCount > 0) {
-      outputPlatter.value = 'Sorry! This currently only works for flat directory structures!\n\ni.e. @import "dir1/file".\nI promise I\'m working on it!';
-      return;
-    }
-
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
 
       quotationStyle = lines[i].charAt(8); //the first character after '@import ' is the quotation style
-      currentDir = between(lines[i], quotationStyle, '/'); //get the directory this line refers to
-      currentFile = between(lines[i],'/', quotationStyle); //get file created in this line
+      currentPath = between(lines[i], quotationStyle, quotationStyle).split('/'); // get the full path to the file
+      currentDir = currentPath.slice(0, -1).join('/'); //get the directory this line refers to
+      currentFile = currentPath.pop(); //get file created in this line
 
-      if (currentDir === lastDir) { //if the current lines dir is the same as the last one
-        finalOutput += 'touch ' + underscore + currentFile + extension + ';';
+      if (currentDir !== lastDir) {
+        finalOutput += 'mkdir -p ' + currentDir + ';';
       }
-      else { //if current dir != last one
-        if (i > 0) { finalOutput += 'cd ../;' } //dont cd for the first line
-         finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';' + 'touch ' + underscore + currentFile + extension + ';';
-      }
+      //if the current lines dir is the same as the last one
+      finalOutput += 'touch ' + currentDir + '/' + underscore + currentFile + extension + ';';
     lastDir = currentDir;
     }
   }
