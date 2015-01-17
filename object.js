@@ -1,5 +1,5 @@
 // split a string to get text between before & after characters
-var i = 0;
+//var i = 0;
 
 function between(input, before, after) {
   i = input.indexOf(before);
@@ -59,52 +59,9 @@ var folderStructure = {
   }
 };
 
-var n = 0;
-
-function printFolders(obj) {
-  // for (var baseDir in sassFiles) { //for all of the baseDirs
-  //   console.log('mkdir', baseDir, 'cd ', baseDir);
-  //   var obj = sassFiles[baseDir];
-    for (var prop in obj) {
-      // console.log('mkdir ' + prop, 'cd ', prop ); //these are the base props
-      // var obj = obj[prop];
-      console.log('obj: ' + obj, 'prop: ' + prop, 'obj[prop]: ', obj[prop]); //obj[prop] is each subfolder
-      // if (obj.hasOwnProperty(prop)) {
-        if (prop === 'files' && obj.files != null) {
-          for (i; i < obj.files.length; i++) {
-            console.log('touch ' + obj.files[i]);
-          }
-        }
-        else if (prop === 'subDirs') {
-          n++;
-          console.log('recurse', n);
-          for (i; i < obj.subDirs.length; i++) {
-            console.log('touch ' + obj.subDirs[i]);
-            // printFolders(obj);
-          }
-        }
-
-
-        // console.log(prop + " = " + obj[prop])
-      }
-    // }
-
-    // if (prop.files != null) {
-    //   for (file in prop.files) {
-    //     console.log(file);
-    //   }
-    // }
-  // }
-  //end of one full iteration -- CD to base & recurse
-}
-
-//printFolders(folderStructure);
-
-// http://stackoverflow.com/questions/4632264/jquery-and-iterating-on-json-objects
 var depthCount = 0;
 
-function dig(obj, depth) {
-  depth = depth || 0; // start at level zero
+function readFiles(obj) {
   for( var item in obj ) {
     if( typeof obj[item] === 'object' ) { //its a subDir, keep going
       if ( item !== 'subDirs' && item !== 'files') {
@@ -112,14 +69,15 @@ function dig(obj, depth) {
         depthCount++;
       }
       if( Array.isArray(obj[item]) ) { //if its an array, its the folders
-        for (i = 0; i < obj[item].length; i++) {
+        for (var i = 0; i < obj[item].length; i++) {
           console.log('touch ', obj[item][i]);
         }
-        console.log('cd ../');
+        if( obj.subDirs == null ) { //you hit the end of the tree
+          console.log('cd ../');
+        }
         depthCount--;
       }
-
-      dig( obj[item], ++depth); // descending here (recursion)
+      readFiles(obj[item]); // recurse!
     }
     else {
       for (i=0; i<depthCount; i++) {
@@ -129,9 +87,9 @@ function dig(obj, depth) {
   }
 }
 
-//console.log( dig( folderStructure ) );
+//console.log( readFiles( folderStructure ) );
 
-dig(folderStructure);
+readFiles(folderStructure);
 
 
 
