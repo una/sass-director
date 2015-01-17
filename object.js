@@ -23,65 +23,123 @@ function between(input, before, after) {
 
 //folderStructure object we want to get
 var folderStructure = {
-    dir1: {
-      files: ['file1', 'file2'],
-      subDirs: {
-        'subDirA': {
-          files: ['file3', 'file4'],
-          subDirs: null
-        },
-        'subDirB': {
-          files: ['file5'],
-          subDirs: null
-        }
-      }
-    },
-    dir2: {
-      files: null,
-      subDirs: {
-        'subdirC': {
-          files: ['file6'],
-          subDirs: null
-        }
-      }
-    },
-  dir3: {
     files: null,
     subDirs: {
-      'subDirD': {
-        files: ['file7'],
-        subdirs: null
+      dir1: {
+        files: ['file1', 'file2'],
+        subDirs: {
+          'subDirA': {
+            files: ['file3', 'file4'],
+            subDirs: null
+          },
+          'subDirB': {
+            files: ['file5'],
+            subDirs: null
+          }
+        }
+      },
+      dir2: {
+        files: null,
+        subDirs: {
+          'subdirC': {
+            files: ['file6'],
+            subDirs: null
+          }
+        }
+      },
+    dir3: {
+      files: null,
+      subDirs: {
+        'subDirD': {
+          files: ['file7'],
+          subDirs: null
+        }
       }
     }
   }
 };
 
-function printFolders(sassFiles) {
-  for (var baseDir in sassFiles) { //for all of the baseDirs
-    console.log('mkdir ', baseDir);
-    var obj = sassFiles[baseDir];
+var n = 0;
+
+function printFolders(obj) {
+  // for (var baseDir in sassFiles) { //for all of the baseDirs
+  //   console.log('mkdir', baseDir, 'cd ', baseDir);
+  //   var obj = sassFiles[baseDir];
     for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        if (prop == 'files') {
-          console.log('touch' + obj[prop]);
-        }
-        if (prop == 'subDirs') {
-          console.log('mkdir' + printFolders(obj[prop]));
-          if (obj[prop] == null) {
-            console.log('cd outta here');
+      // console.log('mkdir ' + prop, 'cd ', prop ); //these are the base props
+      // var obj = obj[prop];
+      console.log('obj: ' + obj, 'prop: ' + prop, 'obj[prop]: ', obj[prop]); //obj[prop] is each subfolder
+      // if (obj.hasOwnProperty(prop)) {
+        if (prop === 'files' && obj.files != null) {
+          for (i; i < obj.files.length; i++) {
+            console.log('touch ' + obj.files[i]);
           }
         }
-        //console.log(prop + " = " + obj[prop])
+        else if (prop === 'subDirs') {
+          n++;
+          console.log('recurse', n);
+          for (i; i < obj.subDirs.length; i++) {
+            console.log('touch ' + obj.subDirs[i]);
+            // printFolders(obj);
+          }
+        }
+
+
+        // console.log(prop + " = " + obj[prop])
       }
-    }
+    // }
 
     // if (prop.files != null) {
     //   for (file in prop.files) {
     //     console.log(file);
     //   }
     // }
+  // }
+  //end of one full iteration -- CD to base & recurse
+}
+
+//printFolders(folderStructure);
+
+// http://stackoverflow.com/questions/4632264/jquery-and-iterating-on-json-objects
+var depthCount = 0;
+
+function dig(obj, depth) {
+  depth = depth || 0; // start at level zero
+  for( var item in obj ) {
+    if( typeof obj[item] === 'object' ) { //its a subDir, keep going
+      if ( item !== 'subDirs' && item !== 'files') {
+        console.log('mkdir & cd into', item);
+        depthCount++;
+      }
+      if( Array.isArray(obj[item]) ) { //if its an array, its the folders
+        for (i = 0; i < obj[item].length; i++) {
+          console.log('touch ', obj[item][i]);
+        }
+        console.log('cd ../');
+        depthCount--;
+      }
+
+      dig( obj[item], ++depth); // descending here (recursion)
+    }
+    else {
+      for (i=0; i<depthCount; i++) {
+        console.log('cd ../');
+      }
+    }
   }
 }
 
-printFolders(folderStructure);
-//between('hello', 'h','o');
+//console.log( dig( folderStructure ) );
+
+dig(folderStructure);
+
+
+
+
+
+
+
+
+
+
+
