@@ -1,6 +1,8 @@
 // split a string to get text between before & after characters
+//var i = 0;
+
 function between(input, before, after) {
-  var i = input.indexOf(before);
+  i = input.indexOf(before);
   if (i >= 0) {
     input = input.substring(i + before.length);
   }
@@ -19,51 +21,105 @@ function between(input, before, after) {
   return input;
 }
 
-function doTheThing() {
-  var inputText = '',
-      extension = '.scss', //default
-      lastDir = '',
-      currentDir = '',
-      currentFile = '',
-      finalOutput = '',
-      subDirCount = 0,
-      quotationStyle = '"',
-      underscore = '_', //default
-      outputPlatter = document.getElementById('output-text'),
-      i;
-
-  // Get the input & options here
-  inputText = document.getElementById('input-text').value;
-  extension = document.querySelector('input[name="extension"]:checked').value;
-  if (!document.querySelector('input[name="underscore"]').checked) {
-    underscore = '';
-  }
-
-  var lines = inputText.split('\n'); //split up the lines in the string into a lines array
-
-  for(var i = 0; i < lines.length; i++) {
-    subDirCount = ((lines[i]).match(/\//g) || []).length-1; //get # of subdirectories in the line
-
-    if (subDirCount > 0) {
-      outputPlatter.value = 'Sorry! This currently only works for flat directory structures!\n\ni.e. @import "dir1/file".\nI promise I\'m working on it!';
-      return;
-    }
-
-    if (lines[i].charAt(0) === '@') { //skip blank lines & comments
-
-      quotationStyle = lines[i].charAt(8); //the first character after '@import ' is the quotation style
-      currentDir = between(lines[i], quotationStyle, '/'); //get the directory this line refers to
-      currentFile = between(lines[i],'/', quotationStyle); //get file created in this line
-
-      if (currentDir === lastDir) { //if the current lines dir is the same as the last one
-        finalOutput += 'touch ' + underscore + currentFile + extension + ';';
+//folderStructure object we want to get
+var folderStructure = {
+    files: null,
+    subDirs: {
+      dir1: {
+        files: ['file1', 'file2'],
+        subDirs: {
+          'subDirA': {
+            files: ['file3', 'file4'],
+            subDirs: null
+          },
+          'subDirB': {
+            files: ['file5'],
+            subDirs: null
+          }
+        }
+      },
+      dir2: {
+        files: ['hello'],
+        subDirs: {
+          'subdirC': {
+            files: ['file6'],
+            subDirs: {
+              'moreA': {
+                files: ['file3', 'file4'],
+                subDirs: null
+              },
+              'moreB': {
+                files: ['file5'],
+                subDirs: null
+              }
+            }
+          }
+        }
+      },
+    dir3: {
+      files: null,
+      subDirs: {
+        'subDirD': {
+          files: ['file7'],
+          subDirs: null
+        }
       }
-      else { //if current dir != last one
-        if (i > 0) { finalOutput += 'cd ../;' } //dont cd for the first line
-         finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';' + 'touch ' + underscore + currentFile + extension + ';';
-      }
-    lastDir = currentDir;
     }
   }
-  outputPlatter.value = finalOutput;
+};
+
+var depthCount = 0;
+var thisItem, lastDir;
+
+function readFiles(obj) {
+  for( var item in obj ) {
+    if( typeof obj[item] === 'object' ) { //its a subDir, keep going
+      if ( item !== 'subDirs' && item !== 'files') {
+        //if its the last prop, cd back again
+        lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
+        thisItem = item;
+        console.log('mkdir & cd into', item);
+        depthCount++;
+      }
+      if( Array.isArray(obj[item]) ) { //if its an array, its the files
+        for (var i = 0; i < obj[item].length; i++) {
+          console.log('touch ', obj[item][i]);
+        }
+        if( obj.subDirs == null ) { //you hit the end of the tree
+          depthCount--;
+          console.log('cd ../', depthCount);
+          if(lastDir === thisItem) { //if its the last dir in the dir we're looping
+            depthCount--;
+            console.log('cd ../', depthCount);
+
+            for(i=0; i<depthCount; i++) {
+              depthCount--;
+              console.log('cd ../', depthCount);
+            }
+          }
+        }
+      }
+      readFiles(obj[item]); // recurse!
+    }
+    // else {
+    //   for (i=0; i<depthCount; i++) {
+    //     // console.log('other cd ../');
+    //   }
+    // }
+  }
 }
+
+//console.log( readFiles( folderStructure ) );
+
+readFiles(folderStructure);
+
+
+
+
+
+
+
+
+
+
+
