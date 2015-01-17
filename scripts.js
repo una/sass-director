@@ -21,6 +21,40 @@ function between(input, before, after) {
   return input;
 }
 
+var sample='@import "layout/navigation";\n@import "layout/meow/grid";\n@import "layout/meow/header";\n@import "layout/meow/2/footer";\n@import "layout/meow/2/sidebar";\n@import "layout/meow/2/forms";\n\n@import "components/buttons";\n@import "components/carousel";\n@import "components/cover";\n@import "components/dropdown";\n\n@import "pages/home";\n@import "pages/contact";\n\n@import "themes/theme";\n@import "themes/admin";';
+
+function doTheThing(inputText) {
+  var extension = '.scss', //default
+      finalObj = {},
+      quotationStyle = '"',
+      underscore = '_', //default
+      i;
+
+  // Get the input & options here
+  inputText = sample;
+  //inputText = document.getElementById('input-text').value;
+  extension = document.querySelector('input[name="extension"]:checked').value;
+  if (!document.querySelector('input[name="underscore"]').checked) {
+    underscore = '';
+  }
+
+  var lines = inputText.split('\n'); //split up the lines in the string into a lines array
+  for(i = 0; i < lines.length; i++) {
+    if (lines[i].charAt(0) === '@') { //skip blank lines & comments
+      quotationStyle = lines[i].charAt(8); //the first character after '@import ' is the quotation style
+
+      console.log(lines[i], underscore, extension);
+
+
+    }
+  }
+}
+
+doTheThing();
+
+
+// WOOHOO THIS SHIT WORKS:
+
 //folderStructure object we want to get
 var folderStructure = {
     files: null,
@@ -70,9 +104,10 @@ var folderStructure = {
 
 var depthCount = 0;
 var thisItem, lastDir;
-var finalText = '';
+var finalOutput = '';
 var extension = '.scss'; //default
 var underscore = '_'; //default
+var outputPlatter = document.getElementById('output-text');
 
 function readFiles(obj) {
   for( var item in obj ) {
@@ -81,23 +116,23 @@ function readFiles(obj) {
         //if its the last prop, cd back again
         lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
         thisItem = item;
-        finalText += 'mkdir ' +  item + ';cd ' + item +';';
+        finalOutput += 'mkdir ' +  item + ';cd ' + item +';';
         depthCount++;
       }
       if( Array.isArray(obj[item]) ) { //if its an array, its the files
         for (var i = 0; i < obj[item].length; i++) {
-          finalText += 'touch ' + underscore + obj[item][i] + extension + ';';
+          finalOutput += 'touch ' + underscore + obj[item][i] + extension + ';';
         }
         if( obj.subDirs == null ) { //you hit the end of the tree
           depthCount--;
-          finalText += 'cd ../;';
+          finalOutput += 'cd ../;';
           if(lastDir === thisItem) { //if its the last dir in the dir we're looping
             depthCount--;
-            finalText += 'cd ../;';
+            finalOutput += 'cd ../;';
 
             for(i=0; i<depthCount; i++) {
               depthCount--;
-              finalText += 'cd ../;';
+              finalOutput += 'cd ../;';
             }
           }
         }
@@ -105,10 +140,11 @@ function readFiles(obj) {
       readFiles(obj[item]); // recurse!
     }
   }
+  outputPlatter.value = finalOutput;
 }
 
 readFiles(folderStructure);
-console.log(finalText);
+console.log(finalOutput);
 
 
 
