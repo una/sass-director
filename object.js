@@ -39,11 +39,20 @@ var folderStructure = {
         }
       },
       dir2: {
-        files: null,
+        files: ['hello'],
         subDirs: {
           'subdirC': {
             files: ['file6'],
-            subDirs: null
+            subDirs: {
+              'moreA': {
+                files: ['file3', 'file4'],
+                subDirs: null
+              },
+              'moreB': {
+                files: ['file5'],
+                subDirs: null
+              }
+            }
           }
         }
       },
@@ -60,30 +69,43 @@ var folderStructure = {
 };
 
 var depthCount = 0;
+var thisItem, lastDir;
 
 function readFiles(obj) {
   for( var item in obj ) {
     if( typeof obj[item] === 'object' ) { //its a subDir, keep going
       if ( item !== 'subDirs' && item !== 'files') {
+        //if its the last prop, cd back again
+        lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
+        thisItem = item;
         console.log('mkdir & cd into', item);
         depthCount++;
       }
-      if( Array.isArray(obj[item]) ) { //if its an array, its the folders
+      if( Array.isArray(obj[item]) ) { //if its an array, its the files
         for (var i = 0; i < obj[item].length; i++) {
           console.log('touch ', obj[item][i]);
         }
         if( obj.subDirs == null ) { //you hit the end of the tree
-          console.log('cd ../');
+          depthCount--;
+          console.log('cd ../', depthCount);
+          if(lastDir === thisItem) { //if its the last dir in the dir we're looping
+            depthCount--;
+            console.log('cd ../', depthCount);
+
+            for(i=0; i<depthCount; i++) {
+              depthCount--;
+              console.log('cd ../', depthCount);
+            }
+          }
         }
-        depthCount--;
       }
       readFiles(obj[item]); // recurse!
     }
-    else {
-      for (i=0; i<depthCount; i++) {
-        console.log('cd ../');
-      }
-    }
+    // else {
+    //   for (i=0; i<depthCount; i++) {
+    //     // console.log('other cd ../');
+    //   }
+    // }
   }
 }
 
