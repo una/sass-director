@@ -71,6 +71,8 @@ var folderStructure = {
 var depthCount = 0;
 var thisItem, lastDir;
 var finalText = '';
+var extension = '.scss'; //default
+var underscore = '_'; //default
 
 function readFiles(obj) {
   for( var item in obj ) {
@@ -84,18 +86,18 @@ function readFiles(obj) {
       }
       if( Array.isArray(obj[item]) ) { //if its an array, its the files
         for (var i = 0; i < obj[item].length; i++) {
-          finalText += 'touch ' + obj[item][i] + ';';
+          finalText += 'touch ' + underscore + obj[item][i] + extension + ';';
         }
         if( obj.subDirs == null ) { //you hit the end of the tree
           depthCount--;
           finalText += 'cd ../;';
           if(lastDir === thisItem) { //if its the last dir in the dir we're looping
             depthCount--;
-            finalText += 'cd ../;'
+            finalText += 'cd ../;';
 
             for(i=0; i<depthCount; i++) {
               depthCount--;
-              finalText += 'cd ../;'
+              finalText += 'cd ../;';
             }
           }
         }
