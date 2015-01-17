@@ -70,6 +70,7 @@ var folderStructure = {
 
 var depthCount = 0;
 var thisItem, lastDir;
+var finalText = '';
 
 function readFiles(obj) {
   for( var item in obj ) {
@@ -78,40 +79,34 @@ function readFiles(obj) {
         //if its the last prop, cd back again
         lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
         thisItem = item;
-        console.log('mkdir & cd into', item);
+        finalText += 'mkdir ' +  item + ';cd ' + item +';';
         depthCount++;
       }
       if( Array.isArray(obj[item]) ) { //if its an array, its the files
         for (var i = 0; i < obj[item].length; i++) {
-          console.log('touch ', obj[item][i]);
+          finalText += 'touch ' + obj[item][i] + ';';
         }
         if( obj.subDirs == null ) { //you hit the end of the tree
           depthCount--;
-          console.log('cd ../', depthCount);
+          finalText += 'cd ../;';
           if(lastDir === thisItem) { //if its the last dir in the dir we're looping
             depthCount--;
-            console.log('cd ../', depthCount);
+            finalText += 'cd ../;'
 
             for(i=0; i<depthCount; i++) {
               depthCount--;
-              console.log('cd ../', depthCount);
+              finalText += 'cd ../;'
             }
           }
         }
       }
       readFiles(obj[item]); // recurse!
     }
-    // else {
-    //   for (i=0; i<depthCount; i++) {
-    //     // console.log('other cd ../');
-    //   }
-    // }
   }
 }
 
-//console.log( readFiles( folderStructure ) );
-
 readFiles(folderStructure);
+console.log(finalText);
 
 
 
