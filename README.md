@@ -56,7 +56,7 @@ TO-DO
 ---
 - [x] quotation style ' or "
 - [x] choose .sass or .scss
-- [ ] make interface pretty
+- [x] make interface pretty
 - [x] Option to add '_'
 - [x] ignore comments
-- [ ] allow for subdirectories
+- [x] allow for subdirectories
