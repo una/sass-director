@@ -32,45 +32,59 @@ function nth_ocurrence(str, thing, nth) {
   return false;
 }
 
-//   if (currentDir === lastDir) {
-//     if (subDirCount === 0) { //just make the file
-//       finalOutput += 'touch ' + underscore + currentFile + extension + ';';
-//     }
+// Thank you @drinks!
+var scaffoldPath = function (path, initial) {
+  var blankObject = {
+    files: null,
+    subDirs: null
+  };
 
-//     else { //if subDirCount > 0
-//       smallerStr = lines[i].replace(currentDir + '/',''); //remove the dir before
-//       currentDir = between(smallerStr, quotationStyle, '/');
-//       dirHist.push(lastDir +'/' + currentDir);
-//       currentFile = between(smallerStr,'/', quotationStyle);
-//       console.log('im a subdir!', currentDir, currentFile, dirHist);
-//       finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';';
-//       subDirCount--;
-//       addFiles();
-//     }
-//   }
+  initial || (initial = JSON.parse(JSON.stringify(blankObject)));
 
-//   else { //if current dir != last one make & cd into dir
-//     if (i != 0 && subDirCount === 0) { finalOutput += 'cd ../;' } //also dont cd for the first line
-//     finalOutput += 'mkdir ' + currentDir + ';cd ' + currentDir +';'; //make the dir & cd into it
-//     lastDir = currentDir;
-//     dirHist.push(currentDir);
-//     addFiles()
-//   }
-// }
+  var finish = function (val, ref) {
+    ref.files && ref.files.push(val) || (ref.files = [val]);
+  };
+
+  var parts = path.split('/');
+  var val = parts.pop().replace(/\.scss$/, '');
+
+  if (parts.length === 0) {
+    finish(val, initial);
+  }
+  else {
+    var ref = parts.reduce(function(accum, part, i) {
+      accum.subDirs || (accum.subDirs = {});
+      if (typeof accum.subDirs[part] === 'undefined') {
+        accum.subDirs[part] = JSON.parse(JSON.stringify(blankObject));
+      }
+      return accum.subDirs[part];
+    }, initial);
+    finish(val, ref);
+  }
+  return initial;
+};
+
+// rest is mine:
+
+function dir(file, subDir) {
+  this.files = file;
+  this.subDirs = subDir;
+}
 
 var extension = '.scss', //default
     finalObj = {},
     quotationStyle = '"',
     underscore = '_', //default
     currentDir,
-    subdirs = 0;
+    subdirs = 0,
+    out;
 
 var sample='@import "layout/navigation";\n@import "layout/meow/grid";\n@import "layout/meow/header";\n@import "layout/meow/2/footer";\n@import "layout/meow/2/sidebar";\n@import "layout/meow/2/forms";\n\n@import "components/buttons";\n@import "components/carousel";\n@import "components/cover";\n@import "components/dropdown";\n\n@import "pages/home";\n@import "pages/contact";\n\n@import "themes/theme";\n@import "themes/admin";';
 
 function doTheThing() {
   // Get the input & options here
-  var inputText = sample;
-  //inputText = document.getElementById('input-text').value;
+  // var inputText = sample;
+  inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
   if (!document.querySelector('input[name="underscore"]').checked) { underscore = ''; }
 
@@ -80,16 +94,19 @@ function doTheThing() {
     subDirCount = ((lines[i]).match(/\//g) || []).length; //get # of subdirectories in the line
 
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
-      var cutOut = lines[i].substr(9, lines[i].length-11).split('/');
-        for(var n=0; n<cutOut.length; n++) {
-          console.log(cutOut[n]);
-        }
-      //if its the last item in the array, its a file
-      //if its above that, its a subDir
-    }
-  }
+      var cutOut = lines[i].substr(9, lines[i].length-11); //.split('/'); //cleaning up @import statement to just inside the ""'s  and splitting it up by /
 
-  //   // console.log(subDirCount);
+      out = scaffoldPath(cutOut, out);
+
+          // if (n === cutOut.length-1) {
+          //   console.log('i am the last file: _', cutOut[n], '.scss')
+          // }
+      }
+    }
+    console.log(out);
+    readFiles(out);
+    console.log(finalOutput);
+    //document.getElementById('output-text').value = readFiles(out);
 }
 
 doTheThing();
@@ -149,7 +166,7 @@ var thisItem, lastDir;
 var finalOutput = '';
 var extension = '.scss'; //default
 var underscore = '_'; //default
-var outputPlatter = document.getElementById('output-text');
+// var outputPlatter = document.getElementById('output-text');
 
 function readFiles(obj) {
   for( var item in obj ) {
@@ -182,11 +199,13 @@ function readFiles(obj) {
       readFiles(obj[item]); // recurse!
     }
   }
-  outputPlatter.value = finalOutput;
+  // outputPlatter.value = finalOutput;
 }
 
-readFiles(folderStructure);
-console.log(finalOutput);
+
+
+// readFiles(folderStructure);
+// console.log(finalOutput);
 
 
 
