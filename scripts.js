@@ -1,8 +1,8 @@
-var i = 0;
-var depthCount = 0;
-var thisItem, lastDir;
-var finalOutput = '';
-var extension = '.scss', //default
+var i = 0,
+    depthCount = 0,
+    thisItem, lastDir,
+    finalOutput = '',
+    extension = '.scss', //default
     underscore = '_', //default
     out;
 
@@ -80,15 +80,11 @@ function doTheThing() {
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
 
   for(i = 0; i < lines.length; i++) {
-
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
       var cutOut = lines[i].substr(9, lines[i].length-11); //cleaning up @import statement
-
       out = scaffoldPath(cutOut, out);
       }
     }
     readFiles(out);
     document.getElementById('output-text').value = finalOutput;
 }
-
-doTheThing();
