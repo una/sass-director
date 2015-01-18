@@ -1,7 +1,6 @@
 var i = 0,
     depthCount = 0,
     thisItem, lastDir,
-    finalOutput = '',
     extension = '.scss', //default
     underscore = '_', //default
     out;
@@ -39,6 +38,7 @@ var scaffoldPath = function (path, initial) {
 };
 
 function readFiles(obj) {
+  var finalOutput = '';
   for( var item in obj ) {
     if( typeof obj[item] === 'object' ) { //its a subDir, keep going
       if ( item !== 'subDirs' && item !== 'files') {
@@ -66,9 +66,10 @@ function readFiles(obj) {
           }
         }
       }
-      readFiles(obj[item]); // recurse!
+      finalOutput += readFiles(obj[item]); // recurse!
     }
   }
+  return finalOutput;
 }
 
 function doTheThing() {
@@ -83,8 +84,7 @@ function doTheThing() {
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
       var cutOut = lines[i].substr(9, lines[i].length-11); //cleaning up @import statement
       out = scaffoldPath(cutOut, out);
-      }
     }
-    readFiles(out);
-    document.getElementById('output-text').value = finalOutput;
+  }
+  document.getElementById('output-text').value = readFiles(out);
 }
