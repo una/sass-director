@@ -60,3 +60,4 @@ TO-DO
 - [x] Option to add '_'
 - [x] ignore comments
 - [x] allow for subdirectories
+- [ ] create cli so we can go `sass-director file-name.scss`
