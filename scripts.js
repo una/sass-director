@@ -73,6 +73,7 @@ function readFiles(obj) {
 }
 
 function doTheThing() {
+  out = '';
   // Get the input & options here
   inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
