@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
 function mkdir(path) {
-	if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
-		path.split(/\/+/).reduce(function (previousValue, currentValue) {
-			if (!fs.existsSync(previousValue) || !fs.statSync(previousValue).isDirectory()) {
-				fs.mkdirSync(previousValue);
-			}
-
-			return previousValue + '/' + currentValue;
-		});
-
-		fs.mkdirSync(path);
+	function create(path) {
+		if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
+			fs.mkdirSync(path);
+		}
 	}
+
+	path.replace(/^\/+/, '').split(/\/+/).reduce(function (previousValue, currentValue) {
+		create('/' + previousValue);
+
+		return previousValue + '/' + currentValue;
+	});
+
+	create(path);
 
 	return true;
 }
@@ -25,8 +27,8 @@ function exit(code, message) {
 var
 fs = require('fs'),
 path = require('path'),
-manifestFile = 2 in process.argv ? String(process.argv[2]) : '',
-baseDirectory = 3 in process.argv ? String(process.argv[3]).replace(/\/+$/, '')  : path.dirname(manifestFile);
+manifestFile = 2 in process.argv ? path.resolve(process.argv[2]) : '',
+baseDirectory = 3 in process.argv ? path.resolve(process.argv[3]).replace(/\/+$/, '') : path.dirname(manifestFile);
 
 if (process.argv.length < 3) {
 	exit(1, 'Usage: sass-director <manifest-file> <base-directory>');
