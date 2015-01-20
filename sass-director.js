@@ -1,21 +1,15 @@
 #!/usr/bin/env node
 
-var
-fs = require('fs'),
-args = process.argv.slice(2),
-manifestFile = process.argv[2] || '',
-baseDirectory = process.argv[3] || dirname(manifestFile);
-
-function basename(path) {
-	return path.replace(/^.*\//, '');
-}
-
-function dirname(path) {
-	return path.replace(/\/[^/]+$/, '');
-}
-
 function mkdir(path) {
 	if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
+		path.split(/\/+/).reduce(function (previousValue, currentValue) {
+			if (!fs.existsSync(previousValue) || !fs.statSync(previousValue).isDirectory()) {
+				fs.mkdirSync(previousValue);
+			}
+
+			return previousValue + '/' + currentValue;
+		});
+
 		fs.mkdirSync(path);
 	}
 
@@ -27,6 +21,12 @@ function exit(code, message) {
 
 	process.exit(code || 0);
 }
+
+var
+fs = require('fs'),
+path = require('path'),
+manifestFile = 2 in process.argv ? String(process.argv[2]) : '',
+baseDirectory = 3 in process.argv ? String(process.argv[3]).replace(/\/+$/, '')  : path.dirname(manifestFile);
 
 if (process.argv.length < 3) {
 	exit(1, 'Usage: sass-director <manifest-file> <base-directory>');
@@ -58,8 +58,8 @@ fs.readFile(manifestFile, 'utf8', function (error, data) {
 			importPath = importPath.match(/\.scss$/) ? importPath : importPath + '.scss';
 
 			var
-			importDirectory = baseDirectory + '/' + dirname(importPath),
-			importBasename = importDirectory + '/_' + basename(importPath);
+			importDirectory = baseDirectory + '/' + path.dirname(importPath),
+			importBasename = importDirectory + '/_' + path.basename(importPath);
 
 			if (!fs.existsSync(importDirectory) && importDirectories.indexOf(importDirectory) === -1) {
 				importDirectories.push(importDirectory);
