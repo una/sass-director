@@ -83,7 +83,7 @@ function doTheThing() {
 
   for(i = 0; i < lines.length; i++) {
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
-      var cutOut = lines[i].substr(9, lines[i].length-11); //cleaning up @import statement
+      var cutOut = lines[i].substr(9, lines[i].length-10); //cleaning up @import statement
       out = scaffoldPath(cutOut, out);
     }
   }
