@@ -2,9 +2,17 @@
 
 function mkdir(path) {
 	function create(path) {
-		if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
-			fs.mkdirSync(path);
+		if (path) {
+			if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
+				try {
+					fs.mkdirSync(path);
+				} catch (error) {
+					return false;
+				}
+			}
 		}
+
+		return true;
 	}
 
 	path.replace(/^\/+/, '').split(/\/+/).reduce(function (previousValue, currentValue) {
@@ -13,9 +21,7 @@ function mkdir(path) {
 		return previousValue + '/' + currentValue;
 	});
 
-	create(path);
-
-	return true;
+	return create(path);
 }
 
 function exit(code, message) {
@@ -74,11 +80,17 @@ fs.readFile(manifestFile, 'utf8', function (error, data) {
 	}
 
 	importDirectories.forEach(function (importDirectory) {
-		mkdir(importDirectory);
+		if (!mkdir(importDirectory)) {
+			exit(1, 'Sorry, sass-director could not create the ' + importDirectory + ' directory.');
+		}
 	});
 
 	importBasenames.forEach(function (importBasename) {
-		fs.closeSync(fs.openSync(importBasename, 'w'));
+		try {
+			fs.closeSync(fs.openSync(importBasename, 'w'));
+		} catch (error) {
+			exit(1, 'Sorry, sass-director could not create the ' + importBasename + ' file.');
+		}
 	});
 
 	exit(0, 'Hurray, sass-director created ' + importDirectories.length + ' directories and ' + importBasenames.length + ' files!');
