@@ -1,0 +1,33 @@
+{
+	"name": "sass-director",
+	"version": "0.1.0",
+	"description": "A package to generate Sass directory structures from Sass manifest files.",
+	"author": "Jonathan Neal <jonathantneal@hotmail.com>",
+	"contributors": [{
+		"name": "Una Kravets",
+		"email": "una.kravets@gmail.com"
+	}, {
+		"name": "Jonathan Neal",
+		"email": "jonathantneal@hotmail.com"
+	}],
+	"license": "MIT",
+	"main": "sass-director.js",
+	"bin": {
+		"sass-director" : "sass-director.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/una/sass-director"
+	},
+	"bugs": {
+		"url": "https://github.com/una/sass-director/issues"
+	},
+	"keywords": [
+		"sass",
+		"scss",
+		"imports",
+		"manifest"
+	],
+	"preferGlobal": true,
+	"private": true
+}
