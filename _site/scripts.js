@@ -72,6 +72,22 @@ function readFiles(obj) {
   return finalOutput;
 }
 
+// Thanks to http://stackoverflow.com/a/20796337/1667207
+function createDownloadLink(data){
+  link = document.getElementById("download");
+  if(window.navigator.msSaveOrOpenBlob) {
+    var fileData = [data];
+      blobObject = new Blob(fileData);
+      link.onclick = function(){
+        window.navigator.msSaveOrOpenBlob(blobObject, "sassdirector.sh");
+      };
+  } else {
+      var url = "data:text/plain;charset=utf-8," + encodeURIComponent(data);
+      link.setAttribute("href", url);
+      link.style.display = "inherit";
+  }
+}
+
 function doTheThing() {
   out = '';
   // Get the input & options here
@@ -87,5 +103,7 @@ function doTheThing() {
       out = scaffoldPath(cutOut, out);
     }
   }
-  document.getElementById('output-text').value = readFiles(out);
+  output = readFiles(out);
+  document.getElementById('output-text').value = output;
+  createDownloadLink(output);
 }
