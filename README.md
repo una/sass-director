@@ -41,6 +41,25 @@ Default Output:
 mkdir utils;cd utils;touch _variables.scss;touch _functions.scss;touch _mixins.scss;touch _placeholders.scss;cd ../;mkdir base;cd base;touch _reset.scss;touch _typography.scss;cd ../;mkdir layout;cd layout;touch _navigation.scss;touch _grid.scss;touch _header.scss;touch _footer.scss;touch _sidebar.scss;touch _forms.scss;cd ../;mkdir components;cd components;touch _buttons.scss;touch _carousel.scss;touch _cover.scss;touch _dropdown.scss;cd ../;mkdir pages;cd pages;touch _home.scss;touch _contact.scss;cd ../;mkdir themes;cd themes;touch _theme.scss;touch _admin.scss;
 ```
 
+It works for files in the same directory and multiple subdirectories:
+
+Input:
+
+```
+@import "file1";
+
+@import 'dir1/file2'
+@import 'dir1/dir2/file3'
+
+@import 'dir3/dir4/file5'
+```
+
+Output:
+
+```
+touch _file1.scss;mkdir dir1;cd dir1;touch _file.scss;mkdir dir2;cd dir2;touch _file.scss;cd ../;cd ../;mkdir dir3;cd dir3;mkdir dir4;cd dir4;touch _file.scss;cd ../;cd ../;
+```
+
 Options
 ---
 
@@ -54,7 +73,11 @@ Options
 
 ## Node Module
 
-There is now a node module! To install, clone this repo and use the command `npm install -g`. Then you can use the following format to build your directories and files: `sass-director <filename> <directory>`. For instance, if you are in the home directory and have created a `sass` folder, you can type `sass-director sass/main.scss sass`, or you can simply leave off the directory command when inside of the sass folder: `sass-director my-manifest.scss`.
+There is now a node module! To install, either simply type `npm install -g sass-director` or clone this repo and use the command `npm install -g`. Then you can use the following format to build your directories and files:
+
+`sass-director <filename> <directory>`
+
+For instance, if you are in the home directory and have created a `sass` folder, you can type `sass-director sass/main.scss sass`, or you can simply leave off the directory command when inside of the sass folder: `sass-director my-manifest.scss`.
 
 TO-DO
 ---

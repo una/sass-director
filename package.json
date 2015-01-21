@@ -28,6 +28,5 @@
 		"imports",
 		"manifest"
 	],
-	"preferGlobal": true,
-	"private": true
+	"preferGlobal": true
 }
