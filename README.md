@@ -3,7 +3,7 @@ Sass Director
 
 An app that generates a shell script to build a directory structure based on your Sass manifest file.
 
-Test file is from sass-guidlin.es
+## Using the [Website](http://sassdirector.com)
 
 Input:
 
@@ -52,6 +52,10 @@ Options
 - .scss or .sass syntax (default is .scss)
 - prefix files with "_" or not (default is prefix with "_")
 
+## Node Module
+
+There is now a node module! To install, clone this repo and use the command `npm install -g`. Then you can use the following format to build your directories and files: `sass-director <filename> <directory>`. For instance, if you are in the home directory and have created a `sass` folder, you can type `sass-director sass/main.scss sass`, or you can simply leave off the directory command when inside of the sass folder: `sass-director my-manifest.scss`.
+
 TO-DO
 ---
 - [x] quotation style ' or "
@@ -60,4 +64,6 @@ TO-DO
 - [x] Option to add '_'
 - [x] ignore comments
 - [x] allow for subdirectories
-- [ ] create cli so we can go `sass-director file-name.scss`
+- [x] create cli so we can go `sass-director file-name.scss`
+- [ ] Options for sass and underscore in node module
+
