@@ -34,18 +34,18 @@ var
 fs = require('fs'),
 path = require('path'),
 manifestFile = 2 in process.argv ? path.resolve(process.argv[2]) : '',
-baseDirectory = 3 in process.argv ? path.resolve(process.argv[3]).replace(/\/+$/, '') : path.dirname(manifestFile);
+manifestDirectory = path.dirname(manifestFile);
 
 if (process.argv.length < 3) {
-	exit(1, 'Usage: sass-director <manifest-file> <base-directory>');
+	exit(1, 'Usage: sass-director <manifest-file>');
 }
 
 if (!fs.existsSync(manifestFile)) {
 	exit(1, 'Sorry, sass-director could not access ' + manifestFile + '.');
 }
 
-if (!mkdir(baseDirectory)) {
-	exit(1, 'Sorry, sass-director could not access ' + baseDirectory + '.');
+if (!mkdir(manifestDirectory)) {
+	exit(1, 'Sorry, sass-director could not access ' + manifestDirectory + '.');
 }
 
 fs.readFile(manifestFile, 'utf8', function (error, data) {
@@ -66,7 +66,7 @@ fs.readFile(manifestFile, 'utf8', function (error, data) {
 			importPath = importPath.match(/\.scss$/) ? importPath : importPath + '.scss';
 
 			var
-			importDirectory = baseDirectory + '/' + path.dirname(importPath),
+			importDirectory = manifestDirectory + '/' + path.dirname(importPath),
 			importBasename = importDirectory + '/_' + path.basename(importPath);
 
 			if (!fs.existsSync(importDirectory) && importDirectories.indexOf(importDirectory) === -1) {
