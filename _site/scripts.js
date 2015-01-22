@@ -5,6 +5,11 @@ var i = 0,
     underscore = '_', //default
     out;
 
+var env = 0;
+
+var makeDir = ['mkdir ', 'md '],
+    newFile = ['touch ', 'type NUL > '];
+
 // Thank you @drinks for help with this function!
 var scaffoldPath = function (path, initial) {
   var blankObject = {
@@ -45,12 +50,12 @@ function readFiles(obj) {
         //if its the last prop, cd back again
         lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
         thisItem = item;
-        finalOutput += 'mkdir ' +  item + ';cd ' + item +';';
+        finalOutput += makeDir[env] +  item + ';cd ' + item +';';
         depthCount++;
       }
       if( Array.isArray(obj[item]) ) { //if its an array, its the files
         for (var i = 0; i < obj[item].length; i++) {
-          finalOutput += 'touch ' + underscore + obj[item][i] + extension + ';';
+          finalOutput += newFile[env] + underscore + obj[item][i] + extension + ';';
         }
         if( obj.subDirs == null ) { //you hit the end of the tree
           depthCount--;
@@ -77,6 +82,10 @@ function doTheThing() {
   // Get the input & options here
   inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
+  // Update the global environment variable the user has selected
+  environment = document.querySelector('input[name="environment"]:checked').value;
+  if(environment === 'Cmd') env = 1;
+
   if (!document.querySelector('input[name="underscore"]').checked) { underscore = ''; }
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
