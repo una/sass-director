@@ -24,74 +24,88 @@ function mkdir(path) {
 	return create(path);
 }
 
-function exit(code, message) {
+function log(message, code) {
 	console.log(message);
 
-	process.exit(code || 0);
+	if (1 in arguments) {
+		process.exit(code);
+	}
 }
 
 var
 fs = require('fs'),
 path = require('path'),
 manifestFile = 2 in process.argv ? path.resolve(process.argv[2]) : '',
-manifestDirectory = path.dirname(manifestFile);
+manifestDirectory = path.dirname(manifestFile),
+partialPrefix = process.argv.indexOf('--no-underscore') !== -1 ? '' : '_',
+partialSuffix = process.argv.indexOf('--sass') !== -1 ? '.sass' : '.scss',
+importMatchAll = /(?:^\s*|;\s+|\n)@import[ \t]+(['"])(.+?)\1/g,
+importMatchOne = /@import[ \t]+(['"])(.+?)\1/,
+commentMatchMultiline = /\/\*[\W\w]+?\*\//g,
+commentMatchOneline = /\/\/[^\n]+/g;
 
 if (process.argv.length < 3) {
-	exit(1, 'Usage: sass-director <manifest-file>');
+	log('Usage: sass-director <manifest-file> [--sass] [--no-underscore]', 1);
 }
 
 if (!fs.existsSync(manifestFile)) {
-	exit(1, 'Sorry, sass-director could not access ' + manifestFile + '.');
+	log('Unable to access "' + manifestFile + '"', 1);
 }
 
 if (!mkdir(manifestDirectory)) {
-	exit(1, 'Sorry, sass-director could not access ' + manifestDirectory + '.');
+	log('Unable to access "' + manifestDirectory + '"', 1);
 }
 
 fs.readFile(manifestFile, 'utf8', function (error, data) {
 	if (error) {
-		exit(1, 'Sorry, sass-director could not access ' + manifestFile + '.');
+		log('Unable to access "' + manifestFile + '"', 1);
 	}
 
 	var
-	importStatements = data.match(/^[ \t]*@import[ \t]+(['"])(.+?)\1/mg),
-	importDirectories = [],
-	importBasenames = [];
+	importStatements = data.replace(commentMatchMultiline, '').replace(commentMatchOneline, '').match(importMatchAll),
+	partialDirectories = [],
+	partialBasenames = [];
 
 	if (importStatements) {
 		importStatements.forEach(function (importStatement) {
 			var
-			importPath = importStatement.match(/^[ \t]*@import[ \t]+(['"])(.+?)\1/)[2];
+			partialPath = importStatement.match(importMatchOne)[2];
 
-			importPath = importPath.match(/\.scss$/) ? importPath : importPath + '.scss';
+			partialPath = partialPath.slice(-5) === partialSuffix ? partialPath : partialPath + partialSuffix;
 
 			var
-			importDirectory = manifestDirectory + '/' + path.dirname(importPath),
-			importBasename = importDirectory + '/_' + path.basename(importPath);
+			partialDirectory = manifestDirectory + '/' + path.dirname(partialPath),
+			partialBasename = path.resolve(partialDirectory + '/' + partialPrefix + path.basename(partialPath));
 
-			if (!fs.existsSync(importDirectory) && importDirectories.indexOf(importDirectory) === -1) {
-				importDirectories.push(importDirectory);
+			if (!fs.existsSync(partialDirectory) && partialDirectories.indexOf(partialDirectory) === -1) {
+				partialDirectories.push(partialDirectory);
 			}
 
-			if (!fs.existsSync(importBasename) && importDirectories.indexOf(importBasename) === -1) {
-				importBasenames.push(importBasename);
+			if (!fs.existsSync(partialBasename) && partialDirectories.indexOf(partialBasename) === -1) {
+				partialBasenames.push(partialBasename);
 			}
 		});
 	}
 
-	importDirectories.forEach(function (importDirectory) {
-		if (!mkdir(importDirectory)) {
-			exit(1, 'Sorry, sass-director could not create the ' + importDirectory + ' directory.');
+	partialDirectories.forEach(function (partialDirectory) {
+		var message = 'Created "' + partialDirectory.slice(manifestDirectory.length + 1) + '"';
+
+		if (!mkdir(partialDirectory)) {
+			log(message + ' FAILED!', 1);
 		}
+
+		log(message);
 	});
 
-	importBasenames.forEach(function (importBasename) {
+	partialBasenames.forEach(function (partialBasename) {
+		var message = 'Created "' + partialBasename.slice(manifestDirectory.length + 1) + '"';
+
 		try {
-			fs.closeSync(fs.openSync(importBasename, 'w'));
+			fs.closeSync(fs.openSync(partialBasename, 'w'));
 		} catch (error) {
-			exit(1, 'Sorry, sass-director could not create the ' + importBasename + ' file.');
+			log(message + ' FAILED!', 1);
 		}
-	});
 
-	exit(0, 'Hurray, sass-director created ' + importDirectories.length + ' directories and ' + importBasenames.length + ' files!');
+		log(message);
+	});
 });
