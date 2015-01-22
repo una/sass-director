@@ -32,6 +32,62 @@ function log(message, code) {
 	}
 }
 
+function main() {
+	fs.readFile(manifestFile, 'utf8', function (error, data) {
+		if (error) {
+			log('Unable to access "' + manifestFile + '"', 1);
+		}
+
+		var
+		importStatements = data.replace(commentMatchMultiline, '').replace(commentMatchOneline, '').match(importMatchAll),
+		partialDirectories = [],
+		partialBasenames = [];
+
+		if (importStatements) {
+			importStatements.forEach(function (importStatement) {
+				var
+				partialPath = importStatement.match(importMatchOne)[2];
+
+				partialPath = partialPath.slice(-5) === partialSuffix ? partialPath : partialPath + partialSuffix;
+
+				var
+				partialDirectory = manifestDirectory + '/' + path.dirname(partialPath),
+				partialBasename = path.resolve(partialDirectory + '/' + partialPrefix + path.basename(partialPath));
+
+				if (!fs.existsSync(partialDirectory) && partialDirectories.indexOf(partialDirectory) === -1) {
+					partialDirectories.push(partialDirectory);
+				}
+
+				if (!fs.existsSync(partialBasename) && partialDirectories.indexOf(partialBasename) === -1) {
+					partialBasenames.push(partialBasename);
+				}
+			});
+		}
+
+		partialDirectories.forEach(function (partialDirectory) {
+			var message = 'Created "' + partialDirectory.slice(manifestDirectory.length + 1) + '"';
+
+			if (!mkdir(partialDirectory)) {
+				log(message + ' FAILED!', 1);
+			}
+
+			log(message);
+		});
+
+		partialBasenames.forEach(function (partialBasename) {
+			var message = 'Created "' + partialBasename.slice(manifestDirectory.length + 1) + '"';
+
+			try {
+				fs.closeSync(fs.openSync(partialBasename, 'w'));
+			} catch (error) {
+				log(message + ' FAILED!', 1);
+			}
+
+			log(message);
+		});
+	});
+}
+
 var
 fs = require('fs'),
 path = require('path'),
@@ -56,56 +112,4 @@ if (!mkdir(manifestDirectory)) {
 	log('Unable to access "' + manifestDirectory + '"', 1);
 }
 
-fs.readFile(manifestFile, 'utf8', function (error, data) {
-	if (error) {
-		log('Unable to access "' + manifestFile + '"', 1);
-	}
-
-	var
-	importStatements = data.replace(commentMatchMultiline, '').replace(commentMatchOneline, '').match(importMatchAll),
-	partialDirectories = [],
-	partialBasenames = [];
-
-	if (importStatements) {
-		importStatements.forEach(function (importStatement) {
-			var
-			partialPath = importStatement.match(importMatchOne)[2];
-
-			partialPath = partialPath.slice(-5) === partialSuffix ? partialPath : partialPath + partialSuffix;
-
-			var
-			partialDirectory = manifestDirectory + '/' + path.dirname(partialPath),
-			partialBasename = path.resolve(partialDirectory + '/' + partialPrefix + path.basename(partialPath));
-
-			if (!fs.existsSync(partialDirectory) && partialDirectories.indexOf(partialDirectory) === -1) {
-				partialDirectories.push(partialDirectory);
-			}
-
-			if (!fs.existsSync(partialBasename) && partialDirectories.indexOf(partialBasename) === -1) {
-				partialBasenames.push(partialBasename);
-			}
-		});
-	}
-
-	partialDirectories.forEach(function (partialDirectory) {
-		var message = 'Created "' + partialDirectory.slice(manifestDirectory.length + 1) + '"';
-
-		if (!mkdir(partialDirectory)) {
-			log(message + ' FAILED!', 1);
-		}
-
-		log(message);
-	});
-
-	partialBasenames.forEach(function (partialBasename) {
-		var message = 'Created "' + partialBasename.slice(manifestDirectory.length + 1) + '"';
-
-		try {
-			fs.closeSync(fs.openSync(partialBasename, 'w'));
-		} catch (error) {
-			log(message + ' FAILED!', 1);
-		}
-
-		log(message);
-	});
-});
+main();
