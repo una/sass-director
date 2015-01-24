@@ -1,167 +1,217 @@
 #!/usr/bin/env node
+/* -----------------------------------------------------------------------------
+ * Sass Director: generate Sass directory structures from Sass manifest files
+ *
+ * Bash script: Una Kravets, Jonathan Neal
+ * Licensed MIT: https://github.com/una/sass-director
+ * -------------------------------------------------------------------------- */
 
-function mkdir(path) {
-	function create(path) {
-		if (path) {
-			if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
-				try {
-					fs.mkdirSync(path);
-				} catch (error) {
-					return false;
+function init(argv) {
+	var fullpath = path.resolve(argv[2]);
+
+	cached = {
+		directory: [],
+		fullpath: []
+	};
+
+	created = {
+		directory: [],
+		fullpath: []
+	};
+
+	manifest = {
+		basename: path.basename(fullpath),
+		directory: path.dirname(fullpath),
+		fullpath: fullpath,
+		prefix: argv.includes('--no-underscore') ? '' : '_',
+		suffix: argv.includes('--sass') ? '.sass' : '.scss',
+		watch:  argv.includes('--watch')
+	};
+
+	matches = {
+		commentMultiline: /\/\*[\W\w]+?\*\//g,
+		commentSingleline: /\/\/[^\n]+/g,
+		importAll: /(?:^\s*|;\s+|\n)@import[ \t]+(['"])(.+?)\1/g,
+		importOne: /@import[ \t]+(['"])(.+?)\1/
+	};
+
+	message = {
+		created: 'Created "$1"',
+		deleted: 'Deleted "$1"',
+		failed: ' FAILED',
+		reading: 'Reading "$1"',
+		watching: 'Watching "$1"'
+	};
+
+	// watch manifest directory if --watch argument exists
+	if (manifest.watch) {
+		var log = message.watching.replace('$1', manifest.basename);
+
+		try {
+			fs.watch(manifest.directory, function () {
+				// run if manifest was modified
+				if (manifest.fullpath === manifest.directory + '/' + arguments[1]) {
+					main();
 				}
-			}
+			});
+
+			console.log(log);
+		} catch (error) {
+			console.log(log + message.failed);
 		}
-
-		return true;
 	}
-
-	path.replace(/^\/+/, '').split(/\/+/).reduce(function (previousValue, currentValue) {
-		create('/' + previousValue);
-
-		return previousValue + '/' + currentValue;
-	});
-
-	return create(path);
-}
-
-function log(message, code) {
-	console.log(message);
-
-	if (1 in arguments) {
-		process.exit(code);
+	// otherwise, run
+	else {
+		main();
 	}
 }
 
 function main() {
-	fs.readFile(manifestFile, 'utf8', function (error, data) {
-		if (error) {
-			log('Unable to access "' + manifestFile + '"', 1);
+	var
+	data;
+
+	// read manifest and strip comments
+	try {
+		data = fs.readFileSync(manifest.fullpath, 'utf8').replace(matches.commentMultiline, '').replace(matches.commentSingleline, '');
+
+		if (!manifest.watch) {
+			console.log(message.reading.replace('$1', manifest.basename));
 		}
+	}
 
-		var
-		importStatements = data.replace(commentMatchMultiline, '').replace(commentMatchOneline, '').match(importMatchAll),
-		directoryList = [],
-		fullpathList = [];
+	// exit on read error
+	catch (error) {
+		console.log(message.reading.replace('$1', manifest.basename) + failed);
 
-		if (importStatements) {
-			importStatements.forEach(function (importStatement) {
-				var
-				relpath = importStatement.match(importMatchOne)[2];
+		process.exit(1);
+	}
 
-				relpath = relpath.slice(-5) === partialSuffix ? relpath : relpath + partialSuffix;
+	// match all import statements
+	(data.match(matches.importAll) || []).forEach(function (importStatement) {
+		// get relative path of import statement
+		var relpath = importStatement.match(matches.importOne)[2],
 
-				var
-				directory = path.resolve(manifestDirectory + '/' + path.dirname(relpath)),
-				fullpath = path.resolve(directory + '/' + partialPrefix + path.basename(relpath));
+		// set import path
+		basename = relpath.slice(-5) === manifest.suffix ? relpath : relpath + manifest.suffix,
+		directory = path.resolve(manifest.directory + '/' + path.dirname(basename)),
+		fullpath = path.resolve(directory + '/' + manifest.prefix + path.basename(basename));
 
-				if (!fs.existsSync(directory) && directoryList.indexOf(directory) === -1) {
-					directoryList.push(directory);
+		// conditionally create every directory required
+		directory.split('/').reduce(function (lastDirectory, directory) {
+			directory = lastDirectory + '/' + directory;
+
+			if (!fs.isDirectorySync(directory) && !created.directory.includes(directory)) {
+				var log = message.created.replace('$1', path.basename(directory));
+
+				try {
+					fs.mkdirSync(directory);
+
+					created.directory.push(directory);
+
+					console.log(log);
+				} catch (error) {
+					console.log(log + message.failed);
+
+					process.exit(1);
 				}
-
-				if (!fs.existsSync(fullpath) && fullpathList.indexOf(fullpath) === -1) {
-					fullpathList.push(fullpath);
-				}
-			});
-		}
-
-		directoryList = directoryList.filter(function (directory) {
-			var
-			message = 'Created "' + directory.slice(manifestDirectory.length + 1) + '"',
-			index = directoryListLast.indexOf(directory);
-
-			if (!mkdir(directory)) {
-				log(message + ' FAILED!', 1);
-
-				return false;
 			}
 
-			if (index !== -1) {
-				directoryListLast.splice(index, 1);
-			}
-
-			log(message);
-
-			return true;
+			return directory;
 		});
 
-		fullpathList = fullpathList.filter(function (fullpath) {
-			var
-			message = 'Created "' + fullpath.slice(manifestDirectory.length + 1) + '"',
-			index = fullpathListLast.indexOf(fullpath);
+		// conditionally create every file required
+		if (!fs.isFileSync(fullpath) && !created.fullpath.includes(fullpath)) {
+			var log = message.created.replace('$1', path.basename(fullpath));
 
 			try {
-				fs.closeSync(fs.openSync(fullpath, 'w'));
+				fs.writeFileSync(fullpath, '');
+
+				created.fullpath.push(fullpath);
+
+				console.log(log);
 			} catch (error) {
-				log(message + ' FAILED!', 1);
+				console.log(log + message.failed);
 
-				return false;
+				process.exit(1);
 			}
-
-			if (index !== -1) {
-				fullpathListLast.splice(index, 1);
-			}
-
-			log(message);
-
-			return true;
-		});
-
-		fullpathListLast.forEach(function (fullpath) {
-			var message = 'Deleted "' + fullpath.slice(manifestDirectory.length + 1) + '"';
-
-			try {
-				if (!fs.readFileSync(fullpath, 'utf8')) {
-					fs.unlinkSync(fullpath);
-				}
-			} catch (error) {
-				log(message + ' FAILED!', 1);
-
-				return false;
-			}
-
-			log(message);
-		});
-
-		directoryListLast = directoryList;
-		fullpathListLast = fullpathList;
+		}
 	});
+
+	// remove files in cache that are empty and not recently created
+	cached.fullpath.forEach(function (fullpath) {
+		var log = message.deleted.replace('$1', path.basename(fullpath));
+
+		try {
+			if (fs.isEmptySync(fullpath) && created.fullpath.indexOf(fullpath) === -1) {
+				fs.unlinkSync(fullpath);
+
+				console.log(log);
+			}
+		} catch (error) {
+			console.log(log + message.failed);
+		}
+	});
+
+	// remove directories in cache that are empty or not recently created
+	cached.directory.forEach(function (directory) {
+		var log = message.deleted.replace('$1', path.basename(directory));
+
+		try {
+			if (fs.isEmptySync(directory) || created.directory.indexOf(directory) === -1) {
+				fs.rmdirSync(directory);
+
+				console.log(log);
+			}
+		} catch (error) {
+			console.log(log + message.failed);
+		}
+	});
+
+	// reset cached
+	cached.directory = created.directory.splice(0);
+	cached.fullpath = created.fullpath.splice(0);
 }
+
+/* Setup
+ * -------------------------------------------------------------------------- */
 
 var
 fs = require('fs'),
 path = require('path'),
-manifestFile = 2 in process.argv ? path.resolve(process.argv[2]) : '',
-manifestDirectory = path.dirname(manifestFile),
-partialPrefix = process.argv.indexOf('--no-underscore') !== -1 ? '' : '_',
-partialSuffix = process.argv.indexOf('--sass') !== -1 ? '.sass' : '.scss',
-isWatching = process.argv.indexOf('--watch') !== -1,
-importMatchAll = /(?:^\s*|;\s+|\n)@import[ \t]+(['"])(.+?)\1/g,
-importMatchOne = /@import[ \t]+(['"])(.+?)\1/,
-commentMatchMultiline = /\/\*[\W\w]+?\*\//g,
-commentMatchOneline = /\/\/[^\n]+/g,
-directoryListLast = [],
-fullpathListLast = [];
+cached, created, manifest, matches, message;
 
-if (process.argv.length < 3) {
-	log('Usage: sass-director <manifest-file> [--sass] [--no-underscore]', 1);
-}
-
-if (!fs.existsSync(manifestFile)) {
-	log('Unable to access "' + manifestFile + '"', 1);
-}
-
-if (!mkdir(manifestDirectory)) {
-	log('Unable to access "' + manifestDirectory + '"', 1);
-}
-
-if (isWatching) {
-	log('Watching "' + manifestFile + '"');
-
-	fs.watch(manifestDirectory, function (event, filename) {
-		if (manifestDirectory + '/' + filename === manifestFile) {
-			main();
+if (!Array.prototype.includes) {
+	Object.defineProperty(Array.prototype, 'includes', {
+		value: function includes() {
+			return Array.prototype.indexOf.apply(this, arguments) !== -1;
 		}
 	});
-} else {
-	main();
 }
+
+if (!fs.isDirectorySync) {
+	fs.isDirectorySync = function isDirectorySync(path) {
+		return fs.existsSync(path) && fs.statSync(path).isDirectory();
+	};
+}
+
+if (!fs.isEmptySync) {
+	fs.isEmptySync = function isEmptySync(path) {
+		try {
+			if (fs.statSync(path).isDirectory()) {
+				return !(fs.readdirSync(path) || []).length;
+			}
+
+			return !(fs.readFileSync(path) || []).length;
+		} catch (error) {
+			return true;
+		}
+	};
+}
+
+if (!fs.isFileSync) {
+	fs.isFileSync = function isFileSync(path) {
+		return fs.existsSync(path) && fs.statSync(path).isFile();
+	};
+}
+
+init(process.argv);
