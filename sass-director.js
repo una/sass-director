@@ -39,8 +39,8 @@ function init(argv) {
 		created: 'Created "$1"',
 		deleted: 'Deleted "$1"',
 		failed: ' FAILED',
-		reading: 'Reading "$1"',
-		watching: 'Watching "$1"'
+		reading: ascii + 'Reading "$1"',
+		watching: ascii + 'Watching "$1"'
 	};
 
 	// watch manifest directory if --watch argument exists
@@ -178,6 +178,7 @@ function main() {
 var
 fs = require('fs'),
 path = require('path'),
+asci = '',
 cached, created, manifest, matches, message;
 
 if (!Array.prototype.includes) {
