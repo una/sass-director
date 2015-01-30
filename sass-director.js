@@ -38,20 +38,20 @@ baseDirectory = 3 in process.argv ? path.resolve(process.argv[3]).replace(/\/+$/
 ascii = '                                       \r\n                  -:..``                         \r\n                +hhoohMMd+\/oo                    \r\n              +``+mmooydssdMM+--:-`              \r\n              No  mMh  yMN``+mmoosdyoyhy\/--:.    \r\n             .yy-.+NM: .MMo  mMd  yMN``\/Nmoos:   \r\n             -++++++++\/\/syy-.+NN: .NMs  dMd  s+  \r\n             \/+++++++++++++++++++\/\/oyy-.\/mN\/ `.  \r\n            `++++++++++++++++++++++++++++++++:   \r\n            .++++++++++++++++++++++++++++++++.   \r\n            :+++++++++++++++++++++++++++++++\/    \r\n            ++++++++++++++++++++++++++++++++-    \r\n           `++++++++++++++++++++++++++++++++     \r\n            `.--::\/\/+++++++++++++++++++++++:     \r\n                      ``..--:\/\/++++++++++++`     \r\n                                 ``..--::\/-      \r\n\r\n                                      \r\n _____                ______ _               _             \r\n\/  ___|               |  _  (_)             | |            \r\n\\ `--.  __ _ ___ ___  | | | |_ _ __ ___  ___| |_ ___  _ __ \r\n `--. \\\/ _` \/ __\/ __| | | | | | \'__\/ _ \\\/ __| __\/ _ \\| \'__|\r\n\/\\__\/ \/ (_| \\__ \\__ \\ | |\/ \/| | | |  __\/ (__| || (_) | |   \r\n\\____\/ \\__,_|___\/___\/ |___\/ |_|_|  \\___|\\___|\\__\\___\/|_|   \r\n\n';
 
 if (process.argv.length < 3) {
-	exit(1, ascii + 'Usage: sass-director <manifest-file>. Use sass-director -h for more information');
+	exit(1, ascii + 'Usage: sass-director <manifest-file>');
 }
 
 if (!fs.existsSync(manifestFile)) {
-	exit(1, 'Sorry, sass-director could not access ' + manifestFile + '.');
+	exit(1, 'Sorry, Sass Director could not access ' + manifestFile + '.');
 }
 
 if (!mkdir(baseDirectory)) {
-	exit(1, 'Sorry, sass-director could not access ' + baseDirectory + '.');
+	exit(1, 'Sorry, Sass Director could not access ' + baseDirectory + '.');
 }
 
 fs.readFile(manifestFile, 'utf8', function (error, data) {
 	if (error) {
-		exit(1, 'Sorry, sass-director could not access ' + manifestFile + '.');
+		exit(1, 'Sorry, Sass Director could not access ' + manifestFile + '.');
 	}
 
 	var
@@ -82,7 +82,7 @@ fs.readFile(manifestFile, 'utf8', function (error, data) {
 
 	importDirectories.forEach(function (importDirectory) {
 		if (!mkdir(importDirectory)) {
-			exit(1, 'Sorry, sass-director could not create the ' + importDirectory + ' directory.');
+			exit(1, 'Sorry, Sass Director could not create the ' + importDirectory + ' directory.');
 		}
 	});
 
@@ -90,9 +90,9 @@ fs.readFile(manifestFile, 'utf8', function (error, data) {
 		try {
 			fs.closeSync(fs.openSync(importBasename, 'w'));
 		} catch (error) {
-			exit(1, 'Sorry, sass-director could not create the ' + importBasename + ' file.');
+			exit(1, 'Sorry, Sass Director could not create the ' + importBasename + ' file.');
 		}
 	});
 
-	exit(0, 'Hurray, sass-director created ' + importDirectories.length + ' directories and ' + importBasenames.length + ' files!');
+	exit(0, ascii + 'Hurray, Sass Director created ' + importDirectories.length + ' directories and ' + importBasenames.length + ' files!');
 });
