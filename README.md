@@ -3,6 +3,8 @@ Sass Director
 
 An app that generates a shell script to build a directory structure based on your Sass manifest file.
 
+Please see the new master repo location [here](https://github.com/Sass-Director/sass-director)
+
 ## Using the [Website](http://sassdirector.com)
 
 Input:
