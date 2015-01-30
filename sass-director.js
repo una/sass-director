@@ -34,10 +34,11 @@ var
 fs = require('fs'),
 path = require('path'),
 manifestFile = 2 in process.argv ? path.resolve(process.argv[2]) : '',
-baseDirectory = 3 in process.argv ? path.resolve(process.argv[3]).replace(/\/+$/, '') : path.dirname(manifestFile);
+baseDirectory = 3 in process.argv ? path.resolve(process.argv[3]).replace(/\/+$/, '') : path.dirname(manifestFile),
+ascii = '                                       \r\n                  -:..``                         \r\n                +hhoohMMd+\/oo                    \r\n              +``+mmooydssdMM+--:-`              \r\n              No  mMh  yMN``+mmoosdyoyhy\/--:.    \r\n             .yy-.+NM: .MMo  mMd  yMN``\/Nmoos:   \r\n             -++++++++\/\/syy-.+NN: .NMs  dMd  s+  \r\n             \/+++++++++++++++++++\/\/oyy-.\/mN\/ `.  \r\n            `++++++++++++++++++++++++++++++++:   \r\n            .++++++++++++++++++++++++++++++++.   \r\n            :+++++++++++++++++++++++++++++++\/    \r\n            ++++++++++++++++++++++++++++++++-    \r\n           `++++++++++++++++++++++++++++++++     \r\n            `.--::\/\/+++++++++++++++++++++++:     \r\n                      ``..--:\/\/++++++++++++`     \r\n                                 ``..--::\/-      \r\n\r\n                                      \r\n _____                ______ _               _             \r\n\/  ___|               |  _  (_)             | |            \r\n\\ `--.  __ _ ___ ___  | | | |_ _ __ ___  ___| |_ ___  _ __ \r\n `--. \\\/ _` \/ __\/ __| | | | | | \'__\/ _ \\\/ __| __\/ _ \\| \'__|\r\n\/\\__\/ \/ (_| \\__ \\__ \\ | |\/ \/| | | |  __\/ (__| || (_) | |   \r\n\\____\/ \\__,_|___\/___\/ |___\/ |_|_|  \\___|\\___|\\__\\___\/|_|   \r\n\n';
 
 if (process.argv.length < 3) {
-	exit(1, 'Usage: sass-director <manifest-file> <base-directory>');
+	exit(1, ascii + 'Usage: sass-director <manifest-file>. Use sass-director -h for more information');
 }
 
 if (!fs.existsSync(manifestFile)) {
