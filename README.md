@@ -1,6 +1,8 @@
 Sass Director
 =============
 
+[![Join the chat at https://gitter.im/una/sass-director](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/una/sass-director?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An app that generates a shell script to build a directory structure based on your Sass manifest file.
 
 Please see the new master repo location [here](https://github.com/Sass-Director/sass-director)
