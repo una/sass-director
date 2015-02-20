@@ -56,33 +56,33 @@
     <h2>Jina Bolton's <a href="https://github.com/jina/refactoring/blob/master/examples/architecture-examples/jina.md">Architecture</a></h2>
     <code>
       <pre>
-@import "dependencies/color";
-@import "dependencies/typography";
-@import "dependencies/layout";
-@import "dependencies/motion";
+@import
+  "dependencies/color",
+  "dependencies/typography",
+  "dependencies/layout",
+  "dependencies/motion",
 
-@import "base/site";
-@import "base/text-inline";
-@import "base/text-block";
-@import "base/lists";
-@import "base/tables";
-@import "base/forms";
-@import "base/media";
-@import "base/code";
+  "base/root",
+  "base/type-elements",
+  "base/form-elements",
+  "base/table-elements",
+  "base/embedded-media",
 
-@import "components/buttons";
-@import "components/tooltips";
+  "components/buttons",
+  "components/cards",
+  "components/menus",
+  "components/modals",
+  "components/tabs",
+  "components/tooltips",
+  // …etc
 
-@import "helpers/themes";
-@import "helpers/layout-float";
-@import "helpers/layout-table";
-@import "helpers/visibility";
+  "helpers/color-themes",
+  "helpers/layout-flex",
+  "helpers/layout-float",
+  "helpers/layout-table",
+  "helpers/visibility",
 
-@import "tools/show-grids"
-@import "tools/diagnostic"
-
-@import "responsive/high-definition"
-@import "responsive/print"
+  "print";
       </pre>
     </code>
   </li>
