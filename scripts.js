@@ -77,7 +77,7 @@ function doTheThing() {
   // Get the input & options here
   inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
-  if (!document.querySelector('input[name="underscore"]').checked) { underscore = ''; }
+  (!document.querySelector('input[name="underscore"]').checked) ? underscore = '' : underscore = '_';
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
 
