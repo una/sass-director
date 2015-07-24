@@ -1,79 +1,48 @@
-var i = 0,
-    depthCount = 0,
-    thisItem, lastDir,
-    extension = '.scss', //default
-    underscore = '_', //default
-    out;
+var extension = '.scss', //default
+    underscore = '_'; //default
 
-// Thank you @drinks for help with this function!
-var scaffoldPath = function (path, initial) {
-  var blankObject = {
-    files: null,
-    subDirs: null
-  };
+function getDirectoryNames(cleanNames) {
+  //returns a string of sorted directory names seperated by spaces
 
-  initial || (initial = JSON.parse(JSON.stringify(blankObject)));
+  var repeatedDirNames = cleanNames.map(function(name) {
+    //maps a name with the filename part removed (part after last slash)
+    //or '' if the name is a filename (no slashes in the name)
+    return name.substr(0, name.lastIndexOf('/')+1)
+  });
 
-  var finish = function (val, ref) {
-    ref.files && ref.files.push(val) || (ref.files = [val]);
-  };
+  var dirNames = [];
 
-  var parts = path.split('/');
-  var val = parts.pop().replace(/\.scss$/, '');
+  repeatedDirNames.sort().forEach(function(name, i, sortedDirNames) {
+    //pushes unique directory names to dirNames array
+    if (name != sortedDirNames[i-1] || sortedDirNames[i-1] == null)
+      dirNames.push(name);
+  });
 
-  if (parts.length === 0) {
-    finish(val, initial);
-  }
-  else {
-    var ref = parts.reduce(function(accum, part, i) {
-      accum.subDirs || (accum.subDirs = {});
-      if (typeof accum.subDirs[part] === 'undefined') {
-        accum.subDirs[part] = JSON.parse(JSON.stringify(blankObject));
-      }
-      return accum.subDirs[part];
-    }, initial);
-    finish(val, ref);
-  }
-  return initial;
-};
-
-function readFiles(obj) {
-  var finalOutput = '';
-  for( var item in obj ) {
-    if( typeof obj[item] === 'object' ) { //its a subDir, keep going
-      if ( item !== 'subDirs' && item !== 'files') {
-        //if its the last prop, cd back again
-        lastDir = Object.keys(obj)[Object.keys(obj).length - 1]; //this is the last directory in the cluster
-        thisItem = item;
-        finalOutput += 'mkdir ' +  item + ';cd ' + item +';';
-        depthCount++;
-      }
-      if( Array.isArray(obj[item]) ) { //if its an array, its the files
-        for (var i = 0; i < obj[item].length; i++) {
-          finalOutput += 'touch ' + underscore + obj[item][i] + extension + ';';
-        }
-        if( obj.subDirs == null ) { //you hit the end of the tree
-          depthCount--;
-          finalOutput += 'cd ../;';
-          if(lastDir === thisItem) { //if its the last dir in the dir we're looping
-            depthCount--;
-            finalOutput += 'cd ../;';
-
-            for(i=0; i<depthCount; i++) {
-              depthCount--;
-              finalOutput += 'cd ../;';
-            }
-          }
-        }
-      }
-      finalOutput += readFiles(obj[item]); // recurse!
-    }
-  }
-  return finalOutput;
+  return dirNames.sort().join(' ').trim();
 }
 
-function doTheThing() {
-  out = '';
+function getFileNames(cleanNames){
+  //returns a string of sorted filenames seperated by spaces
+
+  var fileNames = cleanNames.map(function(name){
+    var file = name.substr(name.lastIndexOf('/')+1) || name;
+    var path = name.substr(0, name.lastIndexOf('/')+1) || '';
+    file = underscore + file + extension;
+    return path + file;
+  });
+
+  return fileNames.sort().join(' ').trim();
+}
+
+function getCommand(cleanNames){
+  //add commands to the directory/file names and don't forget a semicolon
+  var dirCommand = 'mkdir ' + getDirectoryNames(cleanNames) + ';';
+  var fileCommand = 'touch ' + getFileNames(cleanNames) + ';';
+
+  return dirCommand + ' ' + fileCommand;
+}
+
+function doTheThing(inputText) {
   // Get the input & options here
   inputText = document.getElementById('input-text').value;
   extension = document.querySelector('input[name="extension"]:checked').value;
@@ -81,11 +50,13 @@ function doTheThing() {
 
   var lines = inputText.split('\n'); //split up the lines in the string into a lines array
 
+  var cleanNames = [];
+
   for(i = 0; i < lines.length; i++) {
     if (lines[i].charAt(0) === '@') { //skip blank lines & comments
       var cutOut = lines[i].substr(9, lines[i].length-11); //cleaning up @import statement
-      out = scaffoldPath(cutOut, out);
+      cleanNames.push(cutOut);
     }
   }
-  document.getElementById('output-text').value = readFiles(out);
+  document.getElementById('output-text').value = getCommand(cleanNames);
 }
