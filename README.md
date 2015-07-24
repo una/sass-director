@@ -38,7 +38,7 @@ Input:
 Default Output:
 
 ```sh
-mkdir utils;cd utils;touch _variables.scss;touch _functions.scss;touch _mixins.scss;touch _placeholders.scss;cd ../;mkdir base;cd base;touch _reset.scss;touch _typography.scss;cd ../;mkdir layout;cd layout;touch _navigation.scss;touch _grid.scss;touch _header.scss;touch _footer.scss;touch _sidebar.scss;touch _forms.scss;cd ../;mkdir components;cd components;touch _buttons.scss;touch _carousel.scss;touch _cover.scss;touch _dropdown.scss;cd ../;mkdir pages;cd pages;touch _home.scss;touch _contact.scss;cd ../;mkdir themes;cd themes;touch _theme.scss;touch _admin.scss;
+mkdir base/ components/ layout/ pages/ themes/ utils/; touch base/_reset.scss base/_typography.scss components/_buttons.scss components/_carousel.scss components/_cover.scss components/_dropdown.scss layout/_footer.scss layout/_forms.scss layout/_grid.scss layout/_header.scss layout/_navigation.scss layout/_sidebar.scss pages/_contact.scss pages/_home.scss themes/_admin.scss themes/_theme.scss utils/_functions.scss utils/_mixins.scss utils/_placeholders.scss utils/_variables.scss;
 ```
 
 It works for files in the same directory and multiple subdirectories:
@@ -57,7 +57,7 @@ Input:
 Output:
 
 ```sh
-touch _file1.scss;mkdir dir1;cd dir1;touch _file2.scss;mkdir dir2;cd dir2;touch _file3.scss;cd ../;cd ../;mkdir dir3;cd dir3;mkdir dir4;cd dir4;touch _file5.scss;cd ../;cd ../;
+mkdir dir1/ dir1/dir2/ dir3/dir4/; touch _file1.scss dir1/_file2.scss dir1/dir2/_file3.scss dir3/dir4/_file5.scss;
 ```
 
 ## Options
@@ -86,4 +86,3 @@ TO-DO
 - [x] create cli so we can go `sass-director file-name.scss`
 - [ ] Options for sass and underscore in node module
 - [ ] Add shellscript docs
-
