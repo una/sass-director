@@ -3,11 +3,10 @@ var extension = '.scss', //default
 
 function getDirectoryNames(cleanNames) {
   //returns a string of sorted directory names seperated by spaces
-
   var repeatedDirNames = cleanNames.map(function(name) {
     //maps a name with the filename part removed (part after last slash)
     //or '' if the name is a filename (no slashes in the name)
-    return name.substr(0, name.lastIndexOf('/')+1)
+    return name.substr(0, name.lastIndexOf('/'));
   });
 
   var dirNames = [];
@@ -18,17 +17,16 @@ function getDirectoryNames(cleanNames) {
       dirNames.push(name);
   });
 
-  return dirNames.sort().join(' ').trim();
+  return dirNames.join(' ').trim();
 }
 
 function getFileNames(cleanNames){
   //returns a string of sorted filenames seperated by spaces
-
   var fileNames = cleanNames.map(function(name){
     var file = name.substr(name.lastIndexOf('/')+1) || name;
     var path = name.substr(0, name.lastIndexOf('/')+1) || '';
-    file = underscore + file + extension;
-    return path + file;
+
+    return path + underscore + file + extension;
   });
 
   return fileNames.sort().join(' ').trim();
